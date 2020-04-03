@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.InvestmentAccountObjectOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.InvestmentAccountObjectOrder" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appname" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="originalOrderId" property="originalorderId" jdbcType="VARCHAR" />
+    <result column="originalTable" property="originaltable" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="appAlias" property="appalias" jdbcType="VARCHAR" />
+    <result column="appAlias2" property="appalias2" jdbcType="VARCHAR" />
+    <!-- <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" /> -->
+  </resultMap>
+  <resultMap id="queryResult" type="com.hummingbird.maaccount.vo.OrderdetailOutputBaseVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <!-- <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" /> -->
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    *
+    from t_investment_account_object_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOriginalOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    *
+    from t_investment_account_object_order
+    where originalOrderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <insert id="createOrder" parameterType="com.hummingbird.maaccount.entity.InvestmentAccountObjectOrder" >
+    insert into t_investment_account_object_order (orderId, appId, appName, 
+      accountId, method, sum, 
+      remark, originalOrderId, originalTable, 
+      status, insertTime, updateTime, 
+      productName, appOrderId, appAlias, 
+      appAlias2
+      <!-- ,balance,peerAccountId,peerAccountType,peerAccountUnit,type,flowDirection,externalOrderId,externalOrderTime  -->
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appname,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{sum,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{originalorderId,jdbcType=VARCHAR}, #{originaltable,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productName,jdbcType=VARCHAR}, #{appOrderId,jdbcType=VARCHAR}, #{appalias,jdbcType=VARCHAR}, 
+      #{appalias2,jdbcType=VARCHAR}
+     <!-- ,#{balance,jdbcType=BIGINT} ,#{peerAccountId,jdbcType=VARCHAR},#{peerAccountType,jdbcType=VARCHAR},#{peerAccountUnit,jdbcType=VARCHAR}
+      ,#{type,jdbcType=VARCHAR} ,#{flowDirection,jdbcType=VARCHAR},#{externalOrderId,jdbcType=VARCHAR},#{externalOrderTime,jdbcType=TIMESTAMP}
+ -->      )
+  </insert>
+  <select id="queryOrderByPage" resultMap="queryResult"  >
+    select 
+   orderId, appId, appName, method, sum, t.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name, productName, appOrderId
+    , case status when 'OK#' then '正常' else '失败' end status
+   <!--  ,balance,peerAccountId,peerAccountType,peerAccountUnit,td.typename type,case flowDirection when 'IN#' then  '' else '' end flowDirection
+    ,externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime -->
+    from t_investment_account_object_order t left join t_method m on t.method=m.methodId
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startTime != null" >
+        and inserttime &gt;  #{filter.startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endTime != null" >
+         and inserttime &lt;  #{filter.endTime,jdbcType=TIMESTAMP}
+    </if>
+    order by insertTime desc
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="queryOrderTotalByPage" resultType="java.lang.Integer"  >
+    select count(*)
+    from t_investment_account_object_order
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startTime != null" >
+        and updatetime &gt;  #{filter.startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endTime != null" >
+         and updatetime &lt;  #{filter.endTime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+  <update id="updateOrder" parameterType="com.hummingbird.maaccount.entity.InvestmentAccountObjectOrder" >
+    update t_investment_account_object_order
+    set appId = #{appId,jdbcType=VARCHAR},
+      appName = #{appname,jdbcType=VARCHAR},
+      accountId = #{accountId,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      sum = #{sum,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      originalOrderId = #{originalorderId,jdbcType=VARCHAR},
+      originalTable = #{originaltable,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productName = #{productName,jdbcType=VARCHAR},
+      appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      appAlias = #{appalias,jdbcType=VARCHAR},
+      appAlias2 = #{appalias2,jdbcType=VARCHAR}
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

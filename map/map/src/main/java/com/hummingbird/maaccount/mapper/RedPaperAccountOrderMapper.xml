@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.RedPaperAccountOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.RedPaperAccountOrder" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appname" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="CHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="originalOrderId" property="originalorderId" jdbcType="VARCHAR" />
+    <result column="originalTable" property="originaltable" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="appAlias" property="appAlias" jdbcType="VARCHAR" />
+    <result column="appAlias2" property="appAlias2" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+    <result column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    <result column="terminalOrderId" property="terminalOrderId" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productPrice" jdbcType="INTEGER" />
+    <result column="productQuantity" property="productQuantity" jdbcType="VARCHAR" />
+    <result column="associatedOrderId" property="associatedOrderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderId, appId, appName, accountId, method, flowDirection, sum, remark, originalOrderId, 
+    originalTable, status, insertTime, updateTime, appAlias, appAlias2, appOrderId, type, 
+    sellerId, storeId, terminalId, operatorId, batchNo, terminalOrderId, productName, 
+    productPrice, productQuantity,associatedOrderId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_account_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAccountIdAndAppId" resultType="java.lang.String">
+    select 
+     accountId
+    from t_red_paper_account_order
+    where accountId in  (
+             <foreach collection="accountIds" item="item" index="index" separator=",">
+		  		#{item}
+		  	 </foreach>
+          )
+    AND   appId=#{appId,jdbcType=VARCHAR}
+    AND   method='/redPaper/give'
+  </select>
+  <select id="selectByChannelOrderId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_account_order
+    where appId = #{appId,jdbcType=VARCHAR}
+    and channelOrderId = #{channelOrderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_red_paper_account_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.RedPaperAccountOrder" >
+    insert into t_red_paper_account_order (orderId, appId, appName, 
+      accountId, method, flowDirection, 
+      sum, remark, originalOrderId, 
+      originalTable, status, insertTime, 
+      updateTime, appAlias, appAlias2, 
+      appOrderId, type, sellerId, 
+      storeId, terminalId, operatorId, 
+      batchNo, terminalOrderId, productName, 
+      productPrice, productQuantity,associatedOrderId)
+    values (#{orderId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appname,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{flowDirection,jdbcType=CHAR}, 
+      #{sum,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{originalorderId,jdbcType=VARCHAR}, 
+      #{originaltable,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{appAlias,jdbcType=VARCHAR}, #{appAlias2,jdbcType=VARCHAR}, 
+      #{appOrderId,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, #{sellerId,jdbcType=VARCHAR}, 
+      #{storeId,jdbcType=VARCHAR}, #{terminalId,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, 
+      #{batchNo,jdbcType=VARCHAR}, #{terminalOrderId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{productPrice,jdbcType=INTEGER}, #{productQuantity,jdbcType=VARCHAR},#{associatedOrderId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.RedPaperAccountOrder" >
+    insert into t_red_paper_account_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="appId != null" >
+        appId,
+      </if>
+      <if test="appName != null" >
+        appName,
+      </if>
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="flowDirection != null" >
+        flowDirection,
+      </if>
+      <if test="sum != null" >
+        sum,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="originalOrderId != null" >
+        originalOrderId,
+      </if>
+      <if test="originalTable != null" >
+        originalTable,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="appAlias != null" >
+        appAlias,
+      </if>
+      <if test="appAlias2 != null" >
+        appAlias2,
+      </if>
+      <if test="appOrderId != null" >
+        appOrderId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sellerId != null" >
+        sellerId,
+      </if>
+      <if test="storeId != null" >
+        storeId,
+      </if>
+      <if test="terminalId != null" >
+        terminalId,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="batchNo != null" >
+        batchNo,
+      </if>
+      <if test="terminalOrderId != null" >
+        terminalOrderId,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="productPrice != null" >
+        productPrice,
+      </if>
+      <if test="productQuantity != null" >
+        productQuantity,
+      </if>
+       <if test="associatedOrderId != null" >
+        associatedOrderId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="flowDirection != null" >
+        #{flowDirection,jdbcType=CHAR},
+      </if>
+      <if test="sum != null" >
+        #{sum,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originalOrderId != null" >
+        #{originalorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="originalTable != null" >
+        #{originaltable,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appAlias != null" >
+        #{appAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="appAlias2 != null" >
+        #{appAlias2,jdbcType=VARCHAR},
+      </if>
+      <if test="appOrderId != null" >
+        #{appOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalOrderId != null" >
+        #{terminalOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productQuantity != null" >
+        #{productQuantity,jdbcType=VARCHAR},
+      </if>
+       <if test="associatedOrderId != null" >
+        #{associatedOrderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.RedPaperAccountOrder" >
+    update t_red_paper_account_order
+    <set >
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        appName = #{appname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        accountId = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="flowDirection != null" >
+        flowDirection = #{flowDirection,jdbcType=CHAR},
+      </if>
+      <if test="sum != null" >
+        sum = #{sum,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originalOrderId != null" >
+        originalOrderId = #{originalorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="originalTable != null" >
+        originalTable = #{originaltable,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appAlias != null" >
+        appAlias = #{appAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="appAlias2 != null" >
+        appAlias2 = #{appAlias2,jdbcType=VARCHAR},
+      </if>
+      <if test="appOrderId != null" >
+        appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="sellerId != null" >
+        sellerId = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        storeId = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        terminalId = #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        batchNo = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalOrderId != null" >
+        terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        productPrice = #{productPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productQuantity != null" >
+        productQuantity = #{productQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="associatedOrderId != null" >
+        associatedOrderId = #{associatedOrderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.RedPaperAccountOrder" >
+    update t_red_paper_account_order
+    set appId = #{appId,jdbcType=VARCHAR},
+      appName = #{appname,jdbcType=VARCHAR},
+      accountId = #{accountId,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      flowDirection = #{flowDirection,jdbcType=CHAR},
+      sum = #{sum,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      originalOrderId = #{originalorderId,jdbcType=VARCHAR},
+      originalTable = #{originaltable,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      appAlias = #{appAlias,jdbcType=VARCHAR},
+      appAlias2 = #{appAlias2,jdbcType=VARCHAR},
+      appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      sellerId = #{sellerId,jdbcType=VARCHAR},
+      storeId = #{storeId,jdbcType=VARCHAR},
+      terminalId = #{terminalId,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      batchNo = #{batchNo,jdbcType=VARCHAR},
+      terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR},
+      productName = #{productName,jdbcType=VARCHAR},
+      productPrice = #{productPrice,jdbcType=INTEGER},
+      productQuantity = #{productQuantity,jdbcType=VARCHAR},
+      associatedOrderId = #{associatedOrderId,jdbcType=VARCHAR}
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

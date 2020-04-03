@@ -1,0 +1,76 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="map:war exploded">
+    <output-path>$PROJECT_DIR$/target/if</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="map" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: xuanwuSMS:postmsg-ump:2.4" />
+          <element id="library" level="project" name="Maven: xuanwuSMS:xstream:1.3.1" />
+          <element id="library" level="project" name="Maven: zjht:smssender:1.0.2" />
+          <element id="library" level="project" name="Maven: com.hprose:hprose:1.0" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.2.4" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:2.4.1" />
+          <element id="library" level="project" name="Maven: com.dyuproject.protostuff:protostuff-core:1.0.7" />
+          <element id="library" level="project" name="Maven: com.dyuproject.protostuff:protostuff-runtime:1.0.7" />
+          <element id="library" level="project" name="Maven: org.jodd:jodd-http:3.5" />
+          <element id="library" level="project" name="Maven: org.jodd:jodd-core:3.5" />
+          <element id="library" level="project" name="Maven: org.jodd:jodd-upload:3.5" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.3" />
+          <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
+          <element id="library" level="project" name="Maven: commons-digester:commons-digester:1.8" />
+          <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.2" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.1.3" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-test:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.30" />
+          <element id="library" level="project" name="Maven: asm:asm:3.3.1" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.7.4" />
+          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Maven: org.javassist:javassist:3.18.1-GA" />
+          <element id="library" level="project" name="Maven: cglib:cglib:2.2.2" />
+          <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
+          <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />
+          <element id="library" level="project" name="Maven: javax.transaction:transaction-api:1.1" />
+          <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.2" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.3.6" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.3.3" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.6" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.2.7" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-lgpl:1.9.13" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-lgpl:1.9.13" />
+          <element id="library" level="project" name="Maven: javax:javaee-api:7.0" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.0" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: commons-httpclient:commons-httpclient:3.1" />
+          <element id="library" level="project" name="Maven: com.hummingbird:common:0.0.4" />
+          <element id="library" level="project" name="Maven: com.hummingbird:commonbiz:0.0.3" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk16:1.46" />
+          <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.2.1" />
+          <element id="library" level="project" name="Maven: c3p0:c3p0:0.9.1.1" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.6" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.0.5.RELEASE" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/if/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="map/web/Web" />
+    </root>
+  </artifact>
+</component>

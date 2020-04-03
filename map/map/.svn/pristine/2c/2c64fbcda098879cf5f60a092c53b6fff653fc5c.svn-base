@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.RedPaperAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.RedPaperAccount" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productId" property="productId" jdbcType="CHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="activity" property="activity" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    accountId, userId, remark, status, amount, startTime, endTime, insertTime, updateTime, 
+    productId, signature,activity
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByAccountId"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_account
+    where accountId = #{accountId,jdbcType=VARCHAR} 
+  </select>
+   
+  <select  resultMap="BaseResultMap" id="queryRedPaperAccount" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_account
+    WHERE  userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum})
+    <if test="expireIn == 'NO#'.toString()">
+    and   endTime &lt; now()
+    </if>
+    <if test="expireIn == 'YES'.toString()"><!-- 大于&gt; -->
+    and  endTime &gt; now()
+    </if>
+    <if test="status=='USD'.toString()">
+    and status='USD' 
+    </if>
+    <if test="status=='OK#'.toString()">
+    and status='OK#' 
+    </if>
+    <if test="startTime!=null">
+    and startTime &gt; #{startTime} 
+    </if>
+    <if test="endTime!=null">
+    and endTime &lt; #{endTime} 
+    </if>
+    <if test="list.size() > 0">
+     	AND productId in (
+		    <foreach collection="list" item="item" index="index" separator=",">
+		  		#{item}
+		  	</foreach>
+		)
+	</if>
+	<if test="accountIds.size() > 0">
+     	AND accountId in (
+		    <foreach collection="accountIds" item="item" index="index" separator=",">
+		  		#{item}
+		  	</foreach>
+		)
+	</if>
+	  AND productId in (
+		    select productId from t_red_paper_product_relation where appId=#{appId}
+	  )
+	  ORDER BY startTime desc limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select  resultType="java.lang.Integer" id="queryRedPaperAccountByTotal" >
+    select   ifnull(count(*),0)
+    from t_red_paper_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum})
+    <if test="expireIn=='NO#'.toString()">
+    and   endTime &lt; now()
+    </if>
+    <if test="expireIn=='YES'.toString()">
+    and  endTime &gt; now()
+    </if>
+    <if test="status=='USD'.toString()">
+    and status='USD' 
+    </if>
+    <if test="status=='OK#'.toString()">
+    and status='OK#' 
+    </if>
+    <if test="startTime!=null">
+    and startTime &gt; #{startTime} 
+    </if>
+    <if test="endTime!=null">
+    and endTime &lt; #{endTime}
+    </if>
+    <if test="list.size() > 0">
+     	AND productId in (
+		    <foreach collection="list" item="item" index="index" separator=",">
+		  		#{item}
+		  	</foreach>
+		)
+	</if>
+	<if test="accountIds.size() > 0">
+     	AND accountId in (
+		    <foreach collection="accountIds" item="item" index="index" separator=",">
+		  		#{item}
+		  	</foreach>
+		)
+	</if>
+	AND productId in (
+		    select productId from t_red_paper_product_relation where appId=#{appId}
+	)
+  </select>
+  <select  resultMap="BaseResultMap" id="selectAccountByAccountId" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) AND accountId in (
+    <foreach collection="list" item="item" index="index" separator=",">
+  		#{item}
+  	</foreach>
+	) AND status='OK#' AND productId in (select productId from t_red_paper_product_relation where appId=#{appId})
+  </select>
+ 
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_red_paper_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.RedPaperAccount" >
+    insert into t_red_paper_account (accountId, userId, remark, 
+      status, amount, startTime, 
+      endTime, insertTime, updateTime, 
+      productId, signature,activity)
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{amount,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productId,jdbcType=CHAR}, #{signature,jdbcType=VARCHAR},#{activity,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.RedPaperAccount" >
+    insert into t_red_paper_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.RedPaperAccount" >
+    update t_red_paper_account
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=CHAR},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.RedPaperAccount" >
+    update t_red_paper_account
+    set userId = #{userId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productId = #{productId,jdbcType=CHAR},
+      signature = #{signature,jdbcType=VARCHAR}
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+</mapper>

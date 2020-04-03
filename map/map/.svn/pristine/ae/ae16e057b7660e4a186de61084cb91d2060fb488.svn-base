@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.AccountPayProductMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.AccountPayProduct" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="accountId" property="accountId" jdbcType="CHAR" />
+    <result column="groupId" property="groupId" jdbcType="VARCHAR" />
+    <result column="zjproductId" property="zjproductId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, accountId, groupId, zjproductId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_pay_zjproduct_list
+        where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectProduct" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_pay_zjproduct_list
+     where accountId = #{accountId}
+    and groupId = #{groupId}
+    and zjproductId in (
+    <foreach collection="zjproducts" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+	)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_account_pay_zjproduct_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.AccountPayProduct" >
+    insert into t_account_pay_zjproduct_list (id, accountId, groupId, 
+      zjproductId)
+    values (#{id,jdbcType=INTEGER}, #{accountId,jdbcType=CHAR}, #{groupId,jdbcType=VARCHAR}, 
+      #{zjproductId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.AccountPayProduct" >
+    insert into t_account_pay_zjproduct_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="groupId != null" >
+        groupId,
+      </if>
+      <if test="zjproductId != null" >
+        zjproductId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=CHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="zjproductId != null" >
+        #{zjproductId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.AccountPayProduct" >
+    update t_account_pay_zjproduct_list
+    <set >
+      <if test="accountId != null" >
+        accountId = #{accountId,jdbcType=CHAR},
+      </if>
+      <if test="groupId != null" >
+        groupId = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="zjproductId != null" >
+        zjproductId = #{zjproductId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.AccountPayProduct" >
+    update t_account_pay_zjproduct_list
+    set accountId = #{accountId,jdbcType=CHAR},
+      groupId = #{groupId,jdbcType=VARCHAR},
+      zjproductId = #{zjproductId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

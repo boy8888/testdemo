@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.BindBankcardMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.BindBankcard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="bankName" property="bankName" jdbcType="VARCHAR" />
+    <result column="branchName" property="branchName" jdbcType="VARCHAR" />
+    <result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, bankName, branchName, cardNo, area
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bind_bank_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectByCardNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bind_bank_card
+    where cardNo = #{cardNo,jdbcType=VARCHAR}
+  </select>
+   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bind_bank_card
+    where userid = #{userId}
+  </select>
+   <select id="selectByUserIdAndCardNo" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_bind_bank_card
+    where userid = #{userId} and cardNo = #{cardNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_bind_bank_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.BindBankcard" >
+    insert into t_bind_bank_card (id, userId, bankName, 
+      branchName, cardNo, area,insertTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, 
+      #{branchName,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR},now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.BindBankcard" >
+    insert into t_bind_bank_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="bankName != null" >
+        bankName,
+      </if>
+      <if test="branchName != null" >
+        branchName,
+      </if>
+      <if test="cardNo != null" >
+        cardNo,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null" >
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.BindBankcard" >
+    update t_bind_bank_card
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bankName != null" >
+        bankName = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null" >
+        branchName = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        cardNo = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.BindBankcard" >
+    update t_bind_bank_card
+    set userId = #{userId,jdbcType=INTEGER},
+      bankName = #{bankName,jdbcType=VARCHAR},
+      branchName = #{branchName,jdbcType=VARCHAR},
+      cardNo = #{cardNo,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

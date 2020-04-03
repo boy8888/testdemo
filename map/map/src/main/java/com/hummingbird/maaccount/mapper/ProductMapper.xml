@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.Product" >
+    <id column="productId" property="productId" jdbcType="CHAR" />
+    <result column="productAmount" property="productAmount" jdbcType="INTEGER" />
+    <result column="productPrice" property="productPrice" jdbcType="INTEGER" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="productShortName" property="productShortName" jdbcType="VARCHAR" />
+    <result column="productUrl" property="productUrl" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="accountType" property="accountType" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, productAmount, productPrice, productName, productShortName, productUrl, 
+    insertTime, updateTime, accountType, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product
+    where productId = #{productId,jdbcType=CHAR}
+  </select>
+  <select id="selectUseableProducts" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_useable  
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_product
+    where productId = #{productId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.Product" >
+    insert into t_product (productId, productAmount, productPrice, 
+      productName, productShortName, productUrl, 
+      insertTime, updateTime, accountType, 
+      status)
+    values (#{productId,jdbcType=CHAR}, #{productAmount,jdbcType=INTEGER}, #{productPrice,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{productShortName,jdbcType=VARCHAR}, #{productUrl,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{accountType,jdbcType=CHAR}, 
+      #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.Product" >
+    insert into t_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="productAmount != null" >
+        productAmount,
+      </if>
+      <if test="productPrice != null" >
+        productPrice,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="productShortName != null" >
+        productShortName,
+      </if>
+      <if test="productUrl != null" >
+        productUrl,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="accountType != null" >
+        accountType,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="productAmount != null" >
+        #{productAmount,jdbcType=INTEGER},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productShortName != null" >
+        #{productShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="productUrl != null" >
+        #{productUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.Product" >
+    update t_product
+    <set >
+      <if test="productAmount != null" >
+        productAmount = #{productAmount,jdbcType=INTEGER},
+      </if>
+      <if test="productPrice != null" >
+        productPrice = #{productPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productShortName != null" >
+        productShortName = #{productShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="productUrl != null" >
+        productUrl = #{productUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountType != null" >
+        accountType = #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where productId = #{productId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.Product" >
+    update t_product
+    set productAmount = #{productAmount,jdbcType=INTEGER},
+      productPrice = #{productPrice,jdbcType=INTEGER},
+      productName = #{productName,jdbcType=VARCHAR},
+      productShortName = #{productShortName,jdbcType=VARCHAR},
+      productUrl = #{productUrl,jdbcType=VARCHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      accountType = #{accountType,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR}
+    where productId = #{productId,jdbcType=CHAR}
+  </update>
+</mapper>

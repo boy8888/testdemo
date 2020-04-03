@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.AppLogMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.AppLog" >
+    <id column="idt_app_log" property="idtAppLog" jdbcType="INTEGER" />
+    <result column="appId" property="appid" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="request" property="request" jdbcType="VARCHAR" />
+    <result column="respone" property="respone" jdbcType="VARCHAR" />
+    <result column="insertTime" property="inserttime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    idt_app_log, appId, method, request, respone, insertTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_log
+    where idt_app_log = #{idtAppLog,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_app_log
+    where idt_app_log = #{idtAppLog,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.AppLog" useGeneratedKeys="true" keyProperty="idtAppLog">
+    insert into t_app_log ( appId, method, 
+      request, respone, insertTime
+      )
+    values ( #{appid,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{request,jdbcType=VARCHAR}, #{respone,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.AppLog" >
+    insert into t_app_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idtAppLog != null" >
+        idt_app_log,
+      </if>
+      <if test="appid != null" >
+        appId,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="request != null" >
+        request,
+      </if>
+      <if test="respone != null" >
+        respone,
+      </if>
+      <if test="inserttime != null" >
+        insertTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idtAppLog != null" >
+        #{idtAppLog,jdbcType=INTEGER},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null" >
+        #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="respone != null" >
+        #{respone,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.AppLog" >
+    update t_app_log
+    <set >
+      <if test="appid != null" >
+        appId = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="request != null" >
+        request = #{request,jdbcType=VARCHAR},
+      </if>
+      <if test="respone != null" >
+        respone = #{respone,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null" >
+        insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where idt_app_log = #{idtAppLog,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.AppLog" >
+    update t_app_log
+    set appId = #{appid,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      request = #{request,jdbcType=VARCHAR},
+      respone = #{respone,jdbcType=VARCHAR},
+      insertTime = #{inserttime,jdbcType=TIMESTAMP}
+    where idt_app_log = #{idtAppLog,jdbcType=INTEGER}
+  </update>
+</mapper>

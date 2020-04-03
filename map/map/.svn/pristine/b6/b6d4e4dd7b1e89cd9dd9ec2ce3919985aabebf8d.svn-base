@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.JifenAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.JifenAccount" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productId" property="productId" jdbcType="CHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    accountId, userId, remark, status, balance, startTime, endTime, insertTime, updateTime, 
+    productId, signature
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jifen_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByProductId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jifen_account
+    where userId = #{userId,jdbcType=BIGINT} and productId =#{productId,jdbcType=CHAR}
+  </select>
+  <select  resultMap="BaseResultMap" id="queryJifenAccount" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jifen_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) 
+    
+    <if test="list.size() > 0">
+     	AND productId in (
+		    <foreach collection="list" item="item" index="index" separator=",">
+		  		#{item}
+		  	</foreach>
+		)
+	</if>
+	 AND status='OK#' ORDER BY accountId LIMIT #{page.firstResult,jdbcType=DECIMAL},#{page.pageSize,jdbcType=DECIMAL}
+  </select>
+   <select  id="queryJifenAccountByTotal" resultType="java.lang.Integer">
+    select ifnull(count(*),0) from t_jifen_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) 
+    <if test="list.size() > 0">
+     	AND productId in (
+		    <foreach collection="list" item="item" index="index" separator=",">
+		  		#{item}
+		  	</foreach>
+		)
+	</if>
+	 AND status='OK#' 
+  </select>
+   <select  resultMap="BaseResultMap" id="selectAccountByProductId" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jifen_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) AND productId in (select productId from t_jifen_product_relation where appId=#{appId} and productId=#{productId})
+    AND status='OK#'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_jifen_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.JifenAccount" >
+    insert into t_jifen_account (accountId, userId, remark, 
+      status, balance, startTime, 
+      endTime, insertTime, updateTime, 
+      productId, signature)
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{balance,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productId,jdbcType=CHAR}, #{signature,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.JifenAccount" >
+    insert into t_jifen_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.JifenAccount" >
+    update t_jifen_account
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=CHAR},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.JifenAccount" >
+    update t_jifen_account
+    set userId = #{userId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      balance = #{balance,jdbcType=BIGINT},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productId = #{productId,jdbcType=CHAR},
+      signature = #{signature,jdbcType=VARCHAR}
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+</mapper>

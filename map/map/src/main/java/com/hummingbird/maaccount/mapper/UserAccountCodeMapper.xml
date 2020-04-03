@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.UserAccountCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.UserAccountCode" >
+    <id column="idt_user_accountcode" property="idtUserAccountcode" jdbcType="INTEGER" />
+    <result column="mobileNum" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="smsCode" property="smscode" jdbcType="VARCHAR" />
+    <result column="expireIn" property="expirein" jdbcType="INTEGER" />
+    <result column="sendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    idt_user_accountcode, mobileNum,  smsCode, expireIn, sendTime, appId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_accountcode
+    where idt_user_accountcode = #{idtUserAccountcode,jdbcType=INTEGER}
+  </select>
+  <select id="selectUserAccountCode" resultMap="BaseResultMap" parameterType="com.hummingbird.commonbiz.vo.AppMobile" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_accountcode
+    where appId = #{appId,jdbcType=VARCHAR}  and mobileNum = #{mobileNum,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_accountcode
+    where idt_user_accountcode = #{idtUserAccountcode,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.UserAccountCode" useGeneratedKeys="true" keyProperty="idtUserAccountcode" >
+    insert into t_user_accountcode (idt_user_accountcode, mobileNum, 
+      smsCode, expireIn, sendTime, 
+      appId)
+    values (#{idtUserAccountcode,jdbcType=INTEGER}, #{mobileNum,jdbcType=VARCHAR},
+      #{smscode,jdbcType=VARCHAR}, #{expirein,jdbcType=INTEGER}, #{sendtime,jdbcType=TIMESTAMP}, 
+      #{appId,jdbcType=VARCHAR})
+  </insert>
+</mapper>

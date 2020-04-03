@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.SmsMTDelayMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.SmsMTDelay" >
+    <id column="idsms" property="idsms" jdbcType="INTEGER" />
+    <result column="mobileNum" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="mtContent" property="mtContent" jdbcType="VARCHAR" />
+    <result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="actTime" property="actTime" jdbcType="TIMESTAMP" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="action" property="action" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    idsms, mobileNum, mtContent, sendTime, status, actTime, insertTime, appId, action
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sms_mt_delay
+    where idsms = #{idsms,jdbcType=INTEGER}
+  </select>
+  <select id="selectDelaySmses" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sms_mt_delay
+    where sendTime &lt; now() and status = 'CRT'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sms_mt_delay
+    where idsms = #{idsms,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.SmsMTDelay" >
+    insert into t_sms_mt_delay (idsms, mobileNum, mtContent, 
+      sendTime, status, actTime, 
+      insertTime, appId, action
+      )
+    values (#{idsms,jdbcType=INTEGER}, #{mobileNum,jdbcType=VARCHAR}, #{mtContent,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{actTime,jdbcType=TIMESTAMP}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR}, #{action,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.SmsMTDelay" >
+    insert into t_sms_mt_delay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idsms != null" >
+        idsms,
+      </if>
+      <if test="mobileNum != null" >
+        mobileNum,
+      </if>
+      <if test="mtContent != null" >
+        mtContent,
+      </if>
+      <if test="sendTime != null" >
+        sendTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="actTime != null" >
+        actTime,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="appId != null" >
+        appId,
+      </if>
+      <if test="action != null" >
+        action,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idsms != null" >
+        #{idsms,jdbcType=INTEGER},
+      </if>
+      <if test="mobileNum != null" >
+        #{mobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mtContent != null" >
+        #{mtContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="actTime != null" >
+        #{actTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        #{action,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.SmsMTDelay" >
+    update t_sms_mt_delay
+    <set >
+      <if test="mobileNum != null" >
+        mobileNum = #{mobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mtContent != null" >
+        mtContent = #{mtContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="actTime != null" >
+        actTime = #{actTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        action = #{action,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where idsms = #{idsms,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.SmsMTDelay" >
+    update t_sms_mt_delay
+    set mobileNum = #{mobileNum,jdbcType=VARCHAR},
+      mtContent = #{mtContent,jdbcType=VARCHAR},
+      sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      actTime = #{actTime,jdbcType=TIMESTAMP},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      appId = #{appId,jdbcType=VARCHAR},
+      action = #{action,jdbcType=VARCHAR}
+    where idsms = #{idsms,jdbcType=INTEGER}
+  </update>
+</mapper>

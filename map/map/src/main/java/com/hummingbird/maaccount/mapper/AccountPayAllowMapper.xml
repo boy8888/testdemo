@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.AccountPayAllowMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.AccountPayAllow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="groupId" property="groupId" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="CHAR" />
+    <result column="terminalIds" property="terminalids" jdbcType="VARCHAR" />
+    <result column="periodTime" property="periodtime" jdbcType="VARCHAR" />
+    <result column="zjproduct" property="zjproduct" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="cycleType" property="cycletype" jdbcType="VARCHAR" />
+    <result column="cycleDate" property="cycledate" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, groupId, accountId, terminalIds, periodTime, zjproduct, description, cycleType, 
+    cycleDate, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_pay_allow_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectTotalByaccountId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from t_account_pay_allow_group
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByaccountId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_pay_allow_group
+    where accountId = #{accountId,jdbcType=VARCHAR}
+    
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL}
+    </if> 
+  </select>
+  <select id="selectCanPayAccount" resultType="String" parameterType="com.hummingbird.maaccount.vo.CardSelecter" >
+    select 
+    distinct a.accountId
+    from t_account_pay_zjproduct_list zj
+    , t_account_pay_terminal_list t
+    , t_account_pay_time_list ti
+    <if test="consumerType eq 'DCA'">
+    , t_discountcard_account a
+    </if>
+    <if test="consumerType eq 'VCA'">
+    , t_volumecard_account a
+    </if>
+    <if test="consumerType eq 'OCA'">
+    , t_oilcard_account a
+    </if>
+    <if test="consumerType eq 'CA#'">
+    , t_cash_account a
+    </if>
+    where zj.accountId = t.accountId  and zj.groupId = t.groupId
+    and ti.accountId = t.accountId  and ti.groupId = t.groupId
+    and a.userid = #{userId}
+    and a.accountid=ti.accountid
+    and zj.zjproductId = #{zjproductId}
+    and t.terminalId = #{terminalId}
+    and ti.monStart &lt;=  day(now())
+    and ti.monEnd >= day(now())
+    and ti.weekStart &lt;= WEEKDAY(now())
+    and ti.weekEnd >= WEEKDAY(now())
+    and ti.beginTime &lt;= date_format(now(),'%H%i')
+    and ti.endTime >= date_format(now(),'%H%i')
+    and a.status = 'OK#'
+    <if test="consumerType eq 'DCA'">
+    and balance >= #{sum}
+    order by a.inserttime 
+    </if>
+    <if test="consumerType eq 'VCA'">
+    and balance >= #{sum}
+    order by a.inserttime 
+    </if>
+    <if test="consumerType eq 'OCA'">
+    and balance >= #{sum}
+    order by a.inserttime 
+    </if>
+    <if test="consumerType eq 'CA#'">
+    and balance >= #{sum}
+    </if>
+    
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_account_pay_allow_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByaccountIdAndgroupId" parameterType="java.lang.String" >
+    delete from t_account_pay_allow_group
+    where accountId = #{accountId,jdbcType=VARCHAR} and groupId= #{groupId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.AccountPayAllow" >
+    insert into t_account_pay_allow_group (id, groupId, accountId, 
+      terminalIds, periodTime, zjproduct, 
+      description, cycleType, cycleDate, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{groupId,jdbcType=VARCHAR}, #{accountId,jdbcType=CHAR}, 
+      #{terminalids,jdbcType=VARCHAR}, #{periodtime,jdbcType=VARCHAR}, #{zjproduct,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{cycletype,jdbcType=VARCHAR}, #{cycledate,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.AccountPayAllow" >
+    insert into t_account_pay_allow_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupId != null" >
+        groupId,
+      </if>
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="terminalids != null" >
+        terminalIds,
+      </if>
+      <if test="periodtime != null" >
+        periodTime,
+      </if>
+      <if test="zjproduct != null" >
+        zjproduct,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="cycletype != null" >
+        cycleType,
+      </if>
+      <if test="cycledate != null" >
+        cycleDate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=CHAR},
+      </if>
+      <if test="terminalids != null" >
+        #{terminalids,jdbcType=VARCHAR},
+      </if>
+      <if test="periodtime != null" >
+        #{periodtime,jdbcType=VARCHAR},
+      </if>
+      <if test="zjproduct != null" >
+        #{zjproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="cycletype != null" >
+        #{cycletype,jdbcType=VARCHAR},
+      </if>
+      <if test="cycledate != null" >
+        #{cycledate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.AccountPayAllow" >
+    update t_account_pay_allow_group
+    <set >
+      <if test="groupId != null" >
+        groupId = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        accountId = #{accountId,jdbcType=CHAR},
+      </if>
+      <if test="terminalids != null" >
+        terminalIds = #{terminalids,jdbcType=VARCHAR},
+      </if>
+      <if test="periodtime != null" >
+        periodTime = #{periodtime,jdbcType=VARCHAR},
+      </if>
+      <if test="zjproduct != null" >
+        zjproduct = #{zjproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="cycletype != null" >
+        cycleType = #{cycletype,jdbcType=VARCHAR},
+      </if>
+      <if test="cycledate != null" >
+        cycleDate = #{cycledate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.AccountPayAllow" >
+    update t_account_pay_allow_group
+    set groupId = #{groupId,jdbcType=VARCHAR},
+      accountId = #{accountId,jdbcType=CHAR},
+      terminalIds = #{terminalids,jdbcType=VARCHAR},
+      periodTime = #{periodtime,jdbcType=VARCHAR},
+      zjproduct = #{zjproduct,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      cycleType = #{cycletype,jdbcType=VARCHAR},
+      cycleDate = #{cycledate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

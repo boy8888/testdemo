@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.SMSMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.SMSMessage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mobileNum" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="smsCode" property="smscode" jdbcType="VARCHAR" />
+    <result column="expireIn" property="expirein" jdbcType="INTEGER" />
+    <result column="sendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="validateSMS" resultType="int">
+    SELECT 
+     count(1)
+    FROM t_SMS_message
+    WHERE mobileNum=#{mobileNum,jdbcType=VARCHAR}
+    AND   appId=#{appId,jdbcType=VARCHAR}
+    AND   smsCode=#{smscode,jdbcType=VARCHAR}
+    AND   sendTime>#{sendtime,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="validateSMSInterval" resultType="int">
+    SELECT 
+     count(1)
+    FROM t_SMS_message
+    WHERE mobileNum=#{mobileNum,jdbcType=VARCHAR}
+    AND   appId=#{appId,jdbcType=VARCHAR}
+    AND   sendTime>#{sendtime,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByMobileAndAppId">
+    DELETE FROM t_SMS_message
+    WHERE mobileNum=#{mobileNum,jdbcType=VARCHAR}
+    AND   appId=#{appId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.SMSMessage" >
+    INSERT INTO t_SMS_message (mobileNum,smsCode, expireIn, sendTime,appId)
+    VALUES (#{mobileNum,jdbcType=VARCHAR},
+            #{smscode,jdbcType=VARCHAR}, 
+            #{expirein,jdbcType=INTEGER}, 
+            #{sendtime,jdbcType=TIMESTAMP}, 
+            #{appId,jdbcType=VARCHAR})
+  </insert>
+ 
+</mapper>

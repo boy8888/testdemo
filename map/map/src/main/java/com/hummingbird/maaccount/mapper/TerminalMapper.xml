@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.TerminalMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.Terminal" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <association property="shop" javaType="com.hummingbird.maaccount.entity.Shop">
+		<id column="shop_id" property="id" jdbcType="BIGINT" />
+		<result column="shop_code" property="code" jdbcType="VARCHAR" />
+		<result column="shop_name" property="name" jdbcType="VARCHAR" />
+		<result column="shop_short_name" property="shortName" jdbcType="VARCHAR" />
+		<result column="shop_status" property="status" jdbcType="VARCHAR" />
+		<result column="shop_created_ip" property="createdIp" jdbcType="VARCHAR" />
+		<result column="shop_creater" property="creater" jdbcType="VARCHAR" />
+		<result column="shop_created_date" property="createdDate" jdbcType="TIMESTAMP" />
+		<result column="shop_updated_ip" property="updatedIp" jdbcType="VARCHAR" />
+		<result column="shop_updater" property="updater" jdbcType="VARCHAR" />
+		<result column="shop_updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+	</association>
+  </resultMap>
+   <resultMap id="TerminalResultMap" type="com.hummingbird.maaccount.entity.Terminal" >
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    terminal.id, terminal.code,terminal.deleted,
+    shop.id as shop_id,shop.code as shop_code,shop.name as shop_name,shop.short_name as shop_short_name,shop.status as shop_status,shop.created_ip as shop_created_id,shop.creater as shop_creater,shop.created_date as shop_created_date,shop.updated_ip as shop_updated_ip,shop.updater as shop_updater,shop.updated_date as shop_updated_date
+  </sql>
+  
+   <!--   根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_terminal terminal left join t_shop shop on terminal.shop_code=shop.code
+    where terminal.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getAllTerminalList" resultMap="TerminalResultMap">
+	select code
+	from t_terminal AS terminal 
+	where terminal.deleted = '0'
+  </select>
+  
+  <!-- 根据门店code查询终端code列表 -->
+  <select id="findTerminalCodeListByShop" resultType="java.lang.String" parameterType="java.lang.String" >
+    select 
+      code
+    from t_terminal
+    where shop_code = #{shopCode,jdbcType=VARCHAR} and deleted !='1'
+  </select>
+  
+  <!-- 根据终端code判断是否存在 -->
+  <select id="terminalExistFlag" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+      count(*)
+    from t_terminal
+    where code = #{code,jdbcType=VARCHAR} and deleted !='1'
+  </select>
+  
+  <!-- 根据终端code查询，不理会是否已经逻辑删除-->
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+      id, code,deleted
+    from t_terminal
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_terminal
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.Terminal" >
+    insert into t_terminal (id, code, shop_code,deleted
+      )
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{shop.code,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.Terminal" >
+    insert into t_terminal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="shop != null and shop.code != null" >
+        shop_code,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="shop != null and shop.code != null" >
+        #{shop.code,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.Terminal" >
+    update t_terminal
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="shop != null and shop.code != null" >
+        shop_code = #{shop.code,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.Terminal" >
+    update t_terminal
+    set code = #{code,jdbcType=VARCHAR},
+      shop_code = #{shop.code,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+</mapper>

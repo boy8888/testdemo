@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.OpenCardDeliveryFailEntityMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.OpenCardDeliveryFailEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="idCard" property="idCard" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobileNum" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+    <result column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    <result column="terminalOrderId" property="terminalOrderId" jdbcType="VARCHAR" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="paySum" property="paySum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, idCard, name, mobileNum, sellerId, storeId, terminalId, operatorId, batchNo, 
+    terminalOrderId, productId, payTime, paySum, status,orderId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_kk_delivery_false_list
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_kk_delivery_false_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.OpenCardDeliveryFailEntity" >
+    insert into t_kk_delivery_false_list (id, idCard, name, 
+      mobileNum, sellerId, storeId, 
+      terminalId, operatorId, batchNo, 
+      terminalOrderId, productId, payTime, 
+      paySum, status,orderId)
+    values (#{id,jdbcType=INTEGER}, #{idCard,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{mobileNum,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, #{storeId,jdbcType=VARCHAR}, 
+      #{terminalId,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, 
+      #{terminalOrderId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{paySum,jdbcType=INTEGER}, #{status,jdbcType=CHAR},#{orderId})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.OpenCardDeliveryFailEntity" >
+    insert into t_kk_delivery_false_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="idCard != null" >
+        idCard,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="mobileNum != null" >
+        mobileNum,
+      </if>
+      <if test="sellerId != null" >
+        sellerId,
+      </if>
+      <if test="storeId != null" >
+        storeId,
+      </if>
+      <if test="terminalId != null" >
+        terminalId,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="batchNo != null" >
+        batchNo,
+      </if>
+      <if test="terminalOrderId != null" >
+        terminalOrderId,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="payTime != null" >
+        payTime,
+      </if>
+      <if test="paySum != null" >
+        paySum,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNum != null" >
+        #{mobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalOrderId != null" >
+        #{terminalOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paySum != null" >
+        #{paySum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.OpenCardDeliveryFailEntity" >
+    update t_kk_delivery_false_list
+    <set >
+      <if test="idCard != null" >
+        idCard = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNum != null" >
+        mobileNum = #{mobileNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        sellerId = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        storeId = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        terminalId = #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        batchNo = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalOrderId != null" >
+        terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        payTime = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paySum != null" >
+        paySum = #{paySum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.OpenCardDeliveryFailEntity" >
+    update t_kk_delivery_false_list
+    set idCard = #{idCard,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      mobileNum = #{mobileNum,jdbcType=VARCHAR},
+      sellerId = #{sellerId,jdbcType=VARCHAR},
+      storeId = #{storeId,jdbcType=VARCHAR},
+      terminalId = #{terminalId,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      batchNo = #{batchNo,jdbcType=VARCHAR},
+      terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR},
+      productId = #{productId,jdbcType=VARCHAR},
+      payTime = #{payTime,jdbcType=TIMESTAMP},
+      paySum = #{paySum,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR},
+      orderId = #{orderId}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="recordOpenCardFail" >
+    insert into t_kk_delivery_false_list (idCard, name, mobileNum, sellerId, storeId, terminalId, operatorId, batchNo, 
+    terminalOrderId, productId, payTime, paySum, status,orderId)
+    values 
+    <foreach collection="list" item="item" index="index" 
+  separator=",">
+  ( #{item.iD},#{item.name},#{item.mobileNum},#{item.sellerId},#{item.storeId},#{item.terminalId},#{item.operatorId},#{item.batchNo},
+  #{item.terminalOrderId},#{item.productId},#{item.payTime},#{item.paySum},'CRT',#{item.orderId}
+	 )
+  </foreach>
+  </select>
+</mapper>

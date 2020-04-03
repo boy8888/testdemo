@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.ShopMapper">
+	<resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.Shop">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="short_name" property="shortName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="created_ip" property="createdIp" jdbcType="VARCHAR" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+		<result column="updated_ip" property="updatedIp" jdbcType="VARCHAR" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="INTEGER" />
+		<association property="supplier" javaType="com.hummingbird.maaccount.entity.Supplier">
+			<id column="supplier_id" property="id" jdbcType="BIGINT" />
+			<result column="supplier_code" property="code" jdbcType="VARCHAR" />
+			<result column="supplier_name" property="name" jdbcType="VARCHAR" />
+			<result column="supplier_created_ip" property="createdIp" jdbcType="VARCHAR" />
+			<result column="supplier_creater" property="creater" jdbcType="VARCHAR" />
+			<result column="supplier_created_date" property="createdDate" jdbcType="TIMESTAMP" />
+			<result column="supplier_updated_ip" property="updatedIp" jdbcType="VARCHAR" />
+			<result column="supplier_updater" property="updater" jdbcType="VARCHAR" />
+			<result column="supplier_updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+			<result column="supplier_status" property="status" jdbcType="INTEGER" />
+			<result column="supplier_deleted" property="deleted" jdbcType="INTEGER" />
+			<result column="supplier_short_name" property="shortName" jdbcType="VARCHAR" />
+			<result column="supplier_logo_img" property="logoImg" jdbcType="VARCHAR" />
+			<result column="supplier_business_type" property="businessType" jdbcType="VARCHAR" />
+			<result column="supplier_goods_type" property="goodsType" jdbcType="VARCHAR" />
+		</association>
+		<association property="address" javaType="com.hummingbird.maaccount.entity.Address">
+			<id column="address_id" property="id" jdbcType="BIGINT" />
+			<result column="address_code" property="code" jdbcType="VARCHAR" />
+			<result column="address_province" property="province" jdbcType="VARCHAR" />
+			<result column="address_city" property="city" jdbcType="VARCHAR" />
+			<result column="address_area" property="area" jdbcType="VARCHAR" />
+			<result column="address_specifics" property="specifics" jdbcType="VARCHAR" />
+			<result column="address_longitude" property="longitude" jdbcType="VARCHAR" />
+			<result column="address_latitude" property="latitude" jdbcType="VARCHAR" />
+			<result column="address_contact" property="contact" jdbcType="VARCHAR" />
+			<result column="address_phone" property="phone" jdbcType="VARCHAR" />
+			<result column="address_mobile" property="mobile" jdbcType="VARCHAR" />
+			<result column="address_mail_address" property="mailAddress" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	
+	<resultMap id="BaseShopAddressMap" type="com.hummingbird.maaccount.entity.Shop">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="short_name" property="shortName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="created_ip" property="createdIp" jdbcType="VARCHAR" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+		<result column="updated_ip" property="updatedIp" jdbcType="VARCHAR" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="INTEGER" />
+		<association property="address" javaType="com.hummingbird.maaccount.entity.Address">
+			<id column="address_id" property="id" jdbcType="BIGINT" />
+			<result column="address_code" property="code" jdbcType="VARCHAR" />
+			<result column="address_province" property="province" jdbcType="VARCHAR" />
+			<result column="address_city" property="city" jdbcType="VARCHAR" />
+			<result column="address_area" property="area" jdbcType="VARCHAR" />
+			<result column="address_specifics" property="specifics" jdbcType="VARCHAR" />
+			<result column="address_longitude" property="longitude" jdbcType="VARCHAR" />
+			<result column="address_latitude" property="latitude" jdbcType="VARCHAR" />
+			<result column="address_contact" property="contact" jdbcType="VARCHAR" />
+			<result column="address_phone" property="phone" jdbcType="VARCHAR" />
+			<result column="address_mobile" property="mobile" jdbcType="VARCHAR" />
+			<result column="address_mail_address" property="mailAddress" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	
+	<resultMap id="ShopResultMap" type="com.hummingbird.maaccount.entity.Shop">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="short_name" property="shortName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="created_ip" property="createdIp" jdbcType="VARCHAR" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+		<result column="updated_ip" property="updatedIp" jdbcType="VARCHAR" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List" >
+	    shop.id, shop.code, shop.name, shop.short_name, shop.supplier_code, shop.status, shop.address_code, shop.created_ip, shop.creater, 
+        shop.created_date, shop.updated_ip, shop.updater, shop.updated_date,shop.deleted,
+        
+        supplier.id as supplier_id, supplier.code as supplier_supplier_code, supplier.name as supplier_name, supplier.business_type as supplier_business_type, supplier.goods_type as supplier_goods_type,
+        supplier.created_ip as supplier_created_ip, supplier.creater as supplier_creater, supplier.created_date as supplier_created_date, supplier.updated_ip as supplier_updated_ip, supplier.updater as supplier_updater, supplier.updated_date as supplier_updated_date, 
+        supplier.status as supplier_status, supplier.deleted as supplier_deleted, supplier.short_name as supplier_short_name, supplier.address_code as supplier_address_code, supplier.logo_img as supplier_logo_img,
+        
+        address.id as address_id, address.code as address_address_code, address.province as address_province, address.city as address_city, address.area as address_area, address.specifics as address_specifics, address.longitude as address_longitude, address.latitude as address_latitude, address.contact as address_contact, address.phone as address_phone, address.mobile as address_mobile, 
+        address.mail_address as address_mail_address
+    </sql>
+    
+    <sql id="Base_SHOP_ADDRESS_List" >
+	    shop.id, shop.code, shop.name, shop.short_name, shop.supplier_code, shop.status, shop.address_code, shop.created_ip, shop.creater, 
+        shop.created_date, shop.updated_ip, shop.updater, shop.updated_date,shop.deleted,
+        
+        address.id as address_id, address.code as address_address_code, address.province as address_province, address.city as address_city, address.area as address_area, address.specifics as address_specifics, address.longitude as address_longitude, address.latitude as address_latitude, address.contact as address_contact, address.phone as address_phone, address.mobile as address_mobile, 
+        address.mail_address as address_mail_address
+    </sql>
+
+    <!-- 根据主键查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_shop shop left join t_supplier supplier on shop.supplier_code=supplier.code left join t_address address on shop.address_code=address.code
+		where shop.id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据主键查询 -->
+	<select id="selectShopAddress" resultMap="BaseShopAddressMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_SHOP_ADDRESS_List" />
+		from t_shop shop left join t_address address on shop.address_code=address.code
+		where shop.code = #{code,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询所有 不包括已经逻辑删除o数据deleted=1的数据-->
+	<select id="findByList" resultMap="BaseResultMap"
+		parameterType="com.hummingbird.maaccount.vo.QueryShopVO">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM t_shop shop LEFT JOIN t_supplier supplier ON shop.supplier_code=supplier.code LEFT JOIN t_address address ON shop.address_code=address.code
+		WHERE shop.deleted = '0'
+			<if test="code != null and code !='' ">
+				AND shop.code = #{code,jdbcType=VARCHAR} 
+			</if>
+			<if test="name != null and name != '' ">
+				AND shop.name like concat('%', #{name,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="shortName != null and shortName != '' ">
+				AND shop.short_name like concat('%', #{shortName,jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="status != null and status != '' ">
+				AND shop.status = #{status,jdbcType=VARCHAR} 
+			</if>
+			<if test="supplierCode != null and supplierCode != '' ">
+				AND supplier.code = #{supplierCode,jdbcType=VARCHAR} 
+			</if>
+			<if test="supplierName != null and supplierName != '' ">
+				AND supplier.name like concat('%', #{supplierName,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="supplierShortName != null and supplierShortName != '' ">
+				AND supplier.short_name like concat('%', #{supplierShortName,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="businessType != null and businessType != '' ">
+				AND supplier.business_type like concat('%', #{businessType,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="goodsType != null and goodsType != '' ">
+				AND supplier.goods_type like concat('%', #{goodsType,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="province != null and province != '' ">
+				AND address.province like concat('%', #{province,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="city != null and city != '' ">
+				AND address.city like concat('%', #{city,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="area != null and area != '' ">
+				AND address.area like concat('%', #{area,jdbcType=VARCHAR},'%')  
+			</if>
+			<if test="specifics != null and specifics != '' ">
+				AND address.specifics like concat('%', #{specifics,jdbcType=VARCHAR},'%')  
+			</if>
+			LIMIT #{first,jdbcType=INTEGER}, #{last,jdbcType=INTEGER}
+			
+	</select>
+
+	<select id="getAllShopList" resultMap="ShopResultMap">
+		select code,name,short_name
+		from t_shop AS shop 
+		where shop.deleted = '0'
+	</select>
+	
+	<!-- 根据code判断记录是否存在 -->
+	<select id="shopExistFlag" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select
+		 count(*)
+		from t_shop 
+		where code = #{code,jdbcType=VARCHAR} and deleted !='1'
+	</select>
+	
+	<!-- 根据code查询，并且不理会是否已经逻辑删除 -->
+	<select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		 id, code,
+		 name,
+		 short_name, status, created_ip,
+		 creater,
+		 created_date, updated_ip, updater,
+		 updated_date,deleted
+		from t_shop 
+		where code = #{code,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_shop
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.hummingbird.maaccount.entity.Shop">
+		insert into t_shop (id, code,
+		name,
+		short_name, supplier_code, status,
+		address_code, created_ip,
+		creater,
+		created_date, updated_ip, updater,
+		updated_date,deleted)
+		values
+		(#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{shortName,jdbcType=VARCHAR},
+		#{supplier.code,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{address.code,jdbcType=VARCHAR}, #{createdIp,jdbcType=VARCHAR},
+		#{creater,jdbcType=VARCHAR},
+		#{createdDate,jdbcType=TIMESTAMP},
+		#{updatedIp,jdbcType=VARCHAR}, #{updater,jdbcType=VARCHAR},
+		#{updatedDate,jdbcType=TIMESTAMP},#{deleted,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.Shop">
+		insert into t_shop
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="shortName != null">
+				short_name,
+			</if>
+			<if test="supplier !=null and supplier.code != null">
+				supplier_code,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="address !=null and address.code != null">
+				address_code,
+			</if>
+			<if test="createdIp != null">
+				created_ip,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="createdDate != null">
+				created_date,
+			</if>
+			<if test="updatedIp != null">
+				updated_ip,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="updatedDate != null">
+				updated_date,
+			</if>
+			<if test="deleted != null">
+				deleted,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="shortName != null">
+				#{shortName,jdbcType=VARCHAR},
+			</if>
+			<if test="supplier != null and supplier.code != null">
+				#{supplier.code,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null and address.code != null">
+				#{address.code,jdbcType=VARCHAR},
+			</if>
+			<if test="createdIp != null">
+				#{createdIp,jdbcType=VARCHAR},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="createdDate != null">
+				#{createdDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedIp != null">
+				#{updatedIp,jdbcType=VARCHAR},
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedDate != null">
+				#{updatedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleted != null">
+				#{deleted,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.Shop">
+		update t_shop
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="shortName != null">
+				short_name = #{shortName,jdbcType=VARCHAR},
+			</if>
+			<if test="supplier !=null and supplier.code != null">
+				supplier_code = #{supplier.code,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null and address.code != null">
+				address_code = #{address.code,jdbcType=VARCHAR},
+			</if>
+			<if test="createdIp != null">
+				created_ip = #{createdIp,jdbcType=VARCHAR},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="createdDate != null">
+				created_date = #{createdDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedIp != null">
+				updated_ip = #{updatedIp,jdbcType=VARCHAR},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedDate != null">
+				updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleted != null">
+				deleted = #{deleted,jdbcType=INTEGER},
+			</if>
+		</set>
+		where code = #{code,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.Shop">
+		update t_shop
+		set
+		code = #{code,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		short_name = #{shortName,jdbcType=VARCHAR},
+		supplier_code =
+		#{supplier.code,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR},
+		address_code = #{address.code,jdbcType=VARCHAR},
+		created_ip =
+		#{createdIp,jdbcType=VARCHAR},
+		creater = #{creater,jdbcType=VARCHAR},
+		created_date = #{createdDate,jdbcType=TIMESTAMP},
+		updated_ip =
+		#{updatedIp,jdbcType=VARCHAR},
+		updater = #{updater,jdbcType=VARCHAR},
+		updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+		deleted = #{deleted,jdbcType=INTEGER}
+		where code =
+		#{code,jdbcType=VARCHAR}
+	</update>
+</mapper>

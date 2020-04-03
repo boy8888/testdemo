@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.ZJProductMapper" >
+  <cache/>
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.ZJProduct" >
+    <id column="zjid" property="zjid" jdbcType="VARCHAR" />
+    <result column="zjProductName" property="zjproductname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    zjid, zjProductName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_zj_product
+    where zjid = #{zjid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_zj_product
+    where zjid = #{zjid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.ZJProduct" >
+    insert into t_zj_product (zjid, zjProductName)
+    values (#{zjid,jdbcType=VARCHAR}, #{zjproductname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.ZJProduct" >
+    insert into t_zj_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="zjid != null" >
+        zjid,
+      </if>
+      <if test="zjproductname != null" >
+        zjProductName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="zjid != null" >
+        #{zjid,jdbcType=VARCHAR},
+      </if>
+      <if test="zjproductname != null" >
+        #{zjproductname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.ZJProduct" >
+    update t_zj_product
+    <set >
+      <if test="zjproductname != null" >
+        zjProductName = #{zjproductname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where zjid = #{zjid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.ZJProduct" >
+    update t_zj_product
+    set zjProductName = #{zjproductname,jdbcType=VARCHAR}
+    where zjid = #{zjid,jdbcType=VARCHAR}
+  </update>
+</mapper>

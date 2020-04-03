@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.CashAccountOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.CashAccountOrder" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appname" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="originalOrderId" property="originalorderId" jdbcType="VARCHAR" />
+    <result column="originalTable" property="originaltable" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appAlias" property="appalias" jdbcType="VARCHAR" />
+    <result column="appAlias2" property="appalias2" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="terminalOrderId" property="terminalOrderId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productPrice" jdbcType="BIGINT" />
+    <result column="productQuantity" property="productQuantity" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+    <result column="payOrderId" property="payOrderId" jdbcType="VARCHAR" />
+    <result column="shiftInfo" property="shiftInfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="queryResult" type="com.hummingbird.maaccount.vo.OrderDetailOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="queryOrderResult" type="com.hummingbird.maaccount.vo.CashAccountOrderVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderId, appId, appName, accountId, method, sum, remark, originalOrderId, originalTable, 
+    status, insertTime, updateTime, productName, appAlias, appAlias2, appOrderId
+    ,balance,peerAccountId,peerAccountType,peerAccountUnit,type,flowDirection,externalOrderId,externalOrderTime
+    ,sellerId,terminalId,operatorId,storeId,terminalOrderId,batchNo,productPrice,productQuantity,payOrderId,shiftInfo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cash_account_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+   <select id="selectByExternalOrderId" resultMap="queryOrderResult" parameterType="java.lang.String" >
+   select 
+    orderId, appId, appName, method, sum, t_cash_account_order.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name, productName, appOrderId
+    , case status when 'OK#' then '正常' else '失败' end status
+    ,balance,peerAccountId,peerAccountType,peerAccountUnit,td.typename type,case flowDirection when 'IN#' then  '流入' else '流出' end flowDirection
+    ,externalOrderId,shiftInfo
+    from t_cash_account_order
+    left join t_order_type_desc  td on td.typeid=t_cash_account_order.type
+    left join t_method m on t_cash_account_order.method=m.methodId
+    where externalOrderId = #{externalOrderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOriginalOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cash_account_order
+    where originalOrderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByParams" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_cash_account_order
+    where originalOrderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <insert id="createOrder" parameterType="com.hummingbird.maaccount.entity.CashAccountOrder" >
+    insert into t_cash_account_order (orderId, appId, appName, 
+      accountId, method, sum, 
+      remark, originalOrderId, originalTable, 
+      status, insertTime, updateTime, 
+      productName, appAlias, appAlias2, 
+      appOrderId,balance,peerAccountId,peerAccountType,peerAccountUnit,type,flowDirection,externalOrderId,externalOrderTime
+      ,sellerId,terminalId,operatorId,storeId,terminalOrderId,batchNo,productPrice,productQuantity,payOrderId,shiftInfo
+      )
+      
+    values (#{orderId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appname,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{sum,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{originalorderId,jdbcType=VARCHAR}, #{originaltable,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productName,jdbcType=VARCHAR}, #{appalias,jdbcType=VARCHAR}, #{appalias2,jdbcType=VARCHAR}, 
+      #{appOrderId,jdbcType=VARCHAR}
+       ,#{balance,jdbcType=BIGINT} ,#{peerAccountId,jdbcType=VARCHAR},#{peerAccountType,jdbcType=VARCHAR},#{peerAccountUnit,jdbcType=VARCHAR}
+      ,#{type,jdbcType=VARCHAR} ,#{flowDirection,jdbcType=VARCHAR},#{externalOrderId,jdbcType=VARCHAR},#{externalOrderTime,jdbcType=TIMESTAMP}
+      ,#{sellerId} ,#{terminalId},#{operatorId},#{storeId},#{terminalOrderId},#{batchNo},#{productPrice},#{productQuantity},#{payOrderId},#{shiftInfo}
+      )
+  </insert>
+  
+  <select id="selectPosOrder" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_cash_account_order
+    where sellerId = #{sellerId,jdbcType=VARCHAR}
+    and terminalId = #{terminalId,jdbcType=VARCHAR}
+    and terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR}
+    and batchNo = #{batchNo,jdbcType=VARCHAR}
+  </select>
+  <select id="queryOrderByPage" resultMap="queryResult"  >
+    select 
+    orderId, appId, appName, method, sum, t_cash_account_order.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name, productName, appOrderId
+    , case status when 'OK#' then '正常' else '失败' end status
+    ,balance,peerAccountId,peerAccountType,peerAccountUnit,td.typename type,case flowDirection when 'IN#' then  '流入' else '流出' end flowDirection
+    ,externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime
+    from t_cash_account_order  
+    left join t_order_type_desc  td on td.typeid=t_cash_account_order.type
+    left join t_method m on t_cash_account_order.method=m.methodId
+    where  accountid in (
+    	select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and inserttime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and inserttime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+     
+    order by insertTime desc
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="queryCashAccountOrder" resultMap="queryOrderResult"  >
+    select 
+    o.orderId, o.appId, o.appName, o.method,o. sum, o.remark,date_format(o.insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name
+    ,o. productName,o. appOrderId ,if(cancelacc.`status` is not null ,'FLS',o.status) status
+    ,ifnull(cancelacc.balance,o.balance) balance,o.peerAccountId,o.peerAccountType,o.peerAccountUnit,o.type,o.flowDirection
+    ,o.externalOrderId
+    from t_cash_account_order o
+    left join t_method m on o.method=m.methodId
+    left join t_cash_account_order cancelacc on cancelacc.accountId=o.accountId and cancelacc.originalOrderId = o.orderId and cancelacc.type in ('CX#','CZH') and cancelacc.`status`='OK#'
+    where o.type in ('CZ#','XF#') and o.accountid in (
+    	select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    order by o.insertTime desc
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+   <select id="queryCashAccountTotal" resultType="java.lang.Integer"  >
+    select case count(*) when null then 0 else count(*) end 
+    from t_cash_account_order
+    where type in ('CZ#','XF#') and accountid in (
+    	select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+ 
+  </select>
+  <select id="queryOrderTotalByPage" resultType="java.lang.Integer"  >
+    select case count(*) when null then 0 else count(*) end 
+    from t_cash_account_order
+    where  accountid in (
+    	select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+  <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="countCashAccountOrder" resultType="java.lang.Integer"  >
+    select case count(*) when null then 0 else count(*) end 
+    from t_cash_account_order
+    where  accountId in (
+    	select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    ) and type='CZ#'
+  
+  </select>
+  <select id="queryCheckTokenTotal" resultType="java.lang.Integer"  >
+    select case count(*) when null then 0 else count(*) end 
+    from t_cash_account_order
+    where  type='CZ#'
+     <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate != null" >
+        and insertTime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+  <select id="queryCheckTokenSum" resultType="java.lang.Long"  >
+    select IFNULL(sum(abs(`sum`)),0) chargeSum
+    from t_cash_account_order
+    where  type='CZ#'
+     <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate != null" >
+        and insertTime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+  <select id="queryRechargeTotal" resultType="java.lang.Long"  >
+    select IFNULL(sum(abs(`sum`)),0) chargeSum
+    from t_cash_account_order
+    where  type='CZ#'and appId=#{appId,jdbcType=VARCHAR}
+     <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate != null" >
+        and insertTime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+  <select id="queryCancelCount" resultType="java.lang.Integer"  >
+    select case count(*) when null then 0 else count(*) end 
+    from t_cash_account_order
+    where  type='CX#'
+     <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate != null" >
+        and insertTime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+  <select id="queryCancelSum" resultType="java.lang.Long"  >
+    select IFNULL(sum(abs(`sum`)),0) chargeSum
+    from t_cash_account_order
+    where  type='CX#'
+     <if test="filter.startDate!= null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate!= null" >
+        and insertTime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>

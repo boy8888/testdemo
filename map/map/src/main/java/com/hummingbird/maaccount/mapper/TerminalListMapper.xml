@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.TerminalListMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.TerminalList" >
+    <id column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
+    <result column="sellerName" property="sellerName" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="sellerShortName" property="sellerShortName" jdbcType="VARCHAR" />
+    <result column="sellerType" property="sellerType" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="storeShortName" property="storeShortName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    terminalId, storeId, sellerId, storeName, sellerName, district, province, sellerShortName, 
+    sellerType, longitude, latitude, storeShortName, status, insertTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_terminal_list
+    where terminalId = #{terminalId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPosVO" resultMap="BaseResultMap" parameterType="com.hummingbird.maaccount.vo.BasePosVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_terminal_list
+    where terminalId = #{terminalId,jdbcType=VARCHAR} 
+    <choose>
+    	<when test="storeId == null || storeId == 'null'.toString()">
+    		and storeId is null
+    	</when>
+    	<otherwise>
+		    and storeId = #{storeId,jdbcType=VARCHAR} 
+    	</otherwise>
+    </choose>
+    and sellerId = #{sellerId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStoreId" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_terminal_list
+    where storeId = #{storeId,jdbcType=VARCHAR} 
+  </select>
+   <select id="selectByTransOrderVO" resultMap="BaseResultMap" parameterType="com.hummingbird.maaccount.vo.OfflinePayOrderConsumerVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_terminal_list
+    where terminalId = #{terminalId,jdbcType=VARCHAR} 
+    <choose>
+    	<when test="storeId == null || storeId == 'null'.toString()">
+    	   <!--  跳过storeId 
+    		and storeId is null
+    		-->
+    	</when>
+    	<otherwise>
+		    and storeId = #{storeId,jdbcType=VARCHAR} 
+    	</otherwise>
+    </choose>
+    and sellerId = #{sellerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_terminal_list
+    where terminalId = #{terminalId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.TerminalList" >
+    insert into t_terminal_list (terminalId, storeId, sellerId, 
+	storeName, sellerName, district, 
+      province, sellerShortName, sellerType, 
+      longitude, latitude, storeShortName, 
+      status, insertTime)
+    values (#{terminalId,jdbcType=VARCHAR}, #{storeId,jdbcType=VARCHAR}, #{sellerId,jdbcType=VARCHAR}, 
+      #{storeName,jdbcType=VARCHAR}, #{sellerName,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{sellerShortName,jdbcType=VARCHAR}, #{sellerType,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{storeShortName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.TerminalList" >
+    insert into t_terminal_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="terminalId != null" >
+        terminalId,
+      </if>
+      <if test="storeId != null" >
+        storeId,
+      </if>
+      <if test="sellerId != null" >
+        sellerId,
+      </if>
+      <if test="storeName != null" >
+        storeName,
+      </if>
+      <if test="sellerName != null" >
+        sellerName,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="sellerShortName != null" >
+        sellerShortName,
+      </if>
+      <if test="sellerType != null" >
+        sellerType,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="storeShortName != null" >
+        storeShortName,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerName != null" >
+        #{sellerName,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerShortName != null" >
+        #{sellerShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerType != null" >
+        #{sellerType,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="storeShortName != null" >
+        #{storeShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.TerminalList" >
+    update t_terminal_list
+    <set >
+      <if test="storeId != null" >
+        storeId = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerId != null" >
+        sellerId = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        storeName = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerName != null" >
+        sellerName = #{sellerName,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerShortName != null" >
+        sellerShortName = #{sellerShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerType != null" >
+        sellerType = #{sellerType,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="storeShortName != null" >
+        storeShortName = #{storeShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where terminalId = #{terminalId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.TerminalList" >
+    update t_terminal_list
+    set storeId = #{storeId,jdbcType=VARCHAR},
+      sellerId = #{sellerId,jdbcType=VARCHAR},
+      storeName = #{storeName,jdbcType=VARCHAR},
+      sellerName = #{sellerName,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      sellerShortName = #{sellerShortName,jdbcType=VARCHAR},
+      sellerType = #{sellerType,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      storeShortName = #{storeShortName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP}
+    where terminalId = #{terminalId,jdbcType=VARCHAR}
+  </update>
+</mapper>

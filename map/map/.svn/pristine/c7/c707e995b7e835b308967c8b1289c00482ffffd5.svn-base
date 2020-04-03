@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.vo.SpendOrderOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="mobileNum" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="sellerName" property="sellerName" jdbcType="VARCHAR" />
+    <result column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="terminalOrderId" property="terminalOrderId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productPrice" jdbcType="BIGINT" />
+    <result column="productQuantity" property="productQuantity" jdbcType="VARCHAR" />
+    <result column="shiftInfo" property="shiftInfo" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="JournalResultMap" type="com.hummingbird.maaccount.vo.JournalOrderOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="mobileNum" property="mobileNum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="sellerName" property="sellerName" jdbcType="VARCHAR" />
+    <result column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="terminalOrderId" property="terminalOrderId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productPrice" jdbcType="BIGINT" />
+    <result column="productQuantity" property="productQuantity" jdbcType="VARCHAR" />
+    <result column="shiftInfo" property="shiftInfo" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+    <result column="accountProductId" property="accountProductId" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="channelOrderId" property="channelOrderId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="querySpendOrderByPage" resultMap="BaseResultMap"  >
+   select 
+    orderId,appId,appName,accountId,sum,remark,t.status,t.insertTime,type,t.sellerId,
+    t.storeId,t.terminalId,t.operatorId,t.batchNo,t.terminalOrderId,productId,productPrice
+    ,productQuantity,accountType,u.mobileNum,z.zjProductName productName,m.storeName,m.sellerName,
+    case type when 'XF#' then '消费' when 'CX#' then '撤销' when 'CZH' then '冲正' end typename,shiftInfo
+    from v_orders t
+    inner join t_user u on t.userid=u.userid
+    inner join t_zj_product z on z.zjid = productId
+    inner join t_terminal_list m on m.terminalId = t.terminalId
+    where 1=1
+    
+    <if test="filter.mobileNum != null" >
+        and u.mobileNum = #{filter.mobileNum}
+    </if>
+    <if test="filter.searchStart != null" >
+        and t.inserttime &gt;  #{filter.searchStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.searchEnd != null" >
+         and t.inserttime &lt;  #{filter.searchEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+    	and type in (
+		    <foreach collection="filter.type" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.sellerIds != null" >
+    	and t.sellerId in (
+		    <foreach collection="filter.sellerIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.terminalId != null" >
+    	and t.terminalId in (
+		    <foreach collection="filter.terminalId" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.storeIds != null" >
+    	and t.storeId in (
+		    <foreach collection="filter.storeIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.justSuccess" >
+		and not exists (
+			select 1 from v_orders u where u.originalOrderId=t.orderId and u.accountId=t.accountId and u.accountType=t.accountType
+		)
+  	</if>
+  	
+    order by t.insertTime desc
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+    </if>
+  </select>
+  <select id="querySpendOrderTotalByPage" resultType="java.lang.Integer"  >
+    select count(*)
+    from v_orders t
+    inner join t_user u on t.userid=u.userid
+    inner join t_zj_product z on z.zjid = productId
+    inner join t_terminal_list m on m.terminalId = t.terminalId
+    
+    where 1=1
+    <if test="filter.mobileNum != null" >
+        and u.mobileNum = #{filter.mobileNum}
+    </if>
+    <if test="filter.searchStart != null" >
+        and t.inserttime &gt;  #{filter.searchStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.searchEnd != null" >
+         and t.inserttime &lt;  #{filter.searchEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+    	and type in (
+		    <foreach collection="filter.type" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.sellerIds != null" >
+    	and t.sellerId in (
+		    <foreach collection="filter.sellerIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.terminalId != null " >
+    	and t.terminalId in (
+		    <foreach collection="filter.terminalId" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.storeIds != null" >
+    	and t.storeId in (
+		    <foreach collection="filter.storeIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+  	<if test="filter.justSuccess" >
+		and not exists (
+			select 1 from v_orders u where u.originalOrderId=t.orderId and u.accountId=t.accountId and u.accountType=t.accountType
+		)
+  	</if>
+  </select>
+  
+  <select id="queryJournalOrderByPage" resultMap="JournalResultMap"  >
+   select 
+    orderId,appId,appName,accountId,sum,remark,t.status,t.insertTime,type,t.sellerId,
+    t.storeId,t.terminalId,t.operatorId,t.batchNo,t.terminalOrderId,productId,productPrice
+    ,productQuantity,accountType,mobileNum,z.zjProductName productName,m.storeName,m.sellerName,
+    case type when 'XF#' then '消费' when 'CX#' then '撤销' when 'CZH' then '冲正' when 'XSK' THEN '开卡' end typename,shiftInfo,
+    accountProductId,appOrderId,originalOrderId channelOrderId,balance
+    from v_zj_sync_orders t
+    left join t_zj_product z on z.zjid = productId
+    left join t_terminal_list m on m.terminalId = t.terminalId
+    where 1=1
+    
+    <if test="filter.mobileNum != null" >
+        and mobileNum = #{filter.mobileNum}
+    </if>
+    <if test="filter.searchStart != null" >
+        and t.inserttime &gt;  #{filter.searchStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.searchEnd != null" >
+         and t.inserttime &lt;  #{filter.searchEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+    	and type in (
+		    <foreach collection="filter.type" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.sellerIds != null" >
+    	and t.sellerId in (
+		    <foreach collection="filter.sellerIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.terminalId != null" >
+    	and t.terminalId in (
+		    <foreach collection="filter.terminalId" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.storeIds != null" >
+    	and t.storeId in (
+		    <foreach collection="filter.storeIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.justSuccess" >
+		and not exists (
+			select 1 from v_zj_sync_orders u where u.originalOrderId=t.orderId and u.accountId=t.accountId and u.accountType=t.accountType
+		)
+  	</if>
+  	
+    order by t.insertTime desc
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+    </if>
+  </select>
+  <select id="queryJournalOrderTotalByPage" resultType="java.lang.Integer"  >
+    select count(*)
+    from v_zj_sync_orders t
+    left join t_zj_product z on z.zjid = productId
+    left join t_terminal_list m on m.terminalId = t.terminalId
+    
+    where 1=1
+    <if test="filter.mobileNum != null" >
+        and mobileNum = #{filter.mobileNum}
+    </if>
+    <if test="filter.searchStart != null" >
+        and t.inserttime &gt;  #{filter.searchStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.searchEnd != null" >
+         and t.inserttime &lt;  #{filter.searchEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+    	and type in (
+		    <foreach collection="filter.type" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.sellerIds != null" >
+    	and t.sellerId in (
+		    <foreach collection="filter.sellerIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.terminalId != null " >
+    	and t.terminalId in (
+		    <foreach collection="filter.terminalId" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.storeIds != null" >
+    	and t.storeId in (
+		    <foreach collection="filter.storeIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+  	<if test="filter.justSuccess" >
+		and not exists (
+			select 1 from v_zj_sync_orders u where u.originalOrderId=t.orderId and u.accountId=t.accountId and u.accountType=t.accountType
+		)
+  	</if>
+  </select>
+  <select id="queryYesterdayJournalOrderByPage" resultMap="JournalResultMap"  >
+   select 
+    orderId,appId,appName,accountId,sum,remark,t.status,t.insertTime,type,t.sellerId,
+    t.storeId,t.terminalId,t.operatorId,t.batchNo,t.terminalOrderId,productId,productPrice
+    ,productQuantity,accountType,mobileNum,z.zjProductName productName,m.storeName,m.sellerName,
+    case type when 'XF#' then '消费' when 'CX#' then '撤销' when 'CZH' then '冲正'  when 'XSK' THEN '开卡' end typename,shiftInfo,
+    accountProductId,appOrderId,originalOrderId channelOrderId,balance
+    from v_zj_sync_orders_yesterday t
+    left join t_zj_product z on z.zjid = productId
+    left join t_terminal_list m on m.terminalId = t.terminalId
+    where 1=1
+    
+    <if test="filter.mobileNum != null" >
+        and mobileNum = #{filter.mobileNum}
+    </if>
+    <if test="filter.searchStart != null" >
+        and t.inserttime &gt;  #{filter.searchStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.searchEnd != null" >
+         and t.inserttime &lt;  #{filter.searchEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+    	and type in (
+		    <foreach collection="filter.type" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.sellerIds != null" >
+    	and t.sellerId in (
+		    <foreach collection="filter.sellerIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.terminalId != null" >
+    	and t.terminalId in (
+		    <foreach collection="filter.terminalId" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.storeIds != null" >
+    	and t.storeId in (
+		    <foreach collection="filter.storeIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.justSuccess" >
+		and not exists (
+			select 1 from v_zj_sync_orders u where u.originalOrderId=t.orderId and u.accountId=t.accountId and u.accountType=t.accountType
+		)
+  	</if>
+  	
+    order by t.insertTime desc
+    <if test="page != null" >
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+    </if>
+  </select>
+  <select id="queryYesterdayJournalOrderTotalByPage" resultType="java.lang.Integer"  >
+    select count(*)
+    from v_zj_sync_orders_yesterday t
+    left join t_zj_product z on z.zjid = productId
+    left join t_terminal_list m on m.terminalId = t.terminalId
+    
+    where 1=1
+    <if test="filter.mobileNum != null" >
+        and mobileNum = #{filter.mobileNum}
+    </if>
+    <if test="filter.searchStart != null" >
+        and t.inserttime &gt;  #{filter.searchStart,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.searchEnd != null" >
+         and t.inserttime &lt;  #{filter.searchEnd,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+    	and type in (
+		    <foreach collection="filter.type" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.sellerIds != null" >
+    	and t.sellerId in (
+		    <foreach collection="filter.sellerIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.terminalId != null " >
+    	and t.terminalId in (
+		    <foreach collection="filter.terminalId" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+    <if test="filter.storeIds != null" >
+    	and t.storeId in (
+		    <foreach collection="filter.storeIds" item="item" index="index"
+		  separator=",">
+		   #{item}
+		  </foreach>
+		  )
+  	</if>
+  	<if test="filter.justSuccess" >
+		and not exists (
+			select 1 from v_zj_sync_orders u where u.originalOrderId=t.orderId and u.accountId=t.accountId and u.accountType=t.accountType
+		)
+  	</if>
+  </select>
+  
+  
+</mapper>

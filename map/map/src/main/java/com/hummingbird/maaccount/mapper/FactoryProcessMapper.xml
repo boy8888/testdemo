@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.FactoryProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.FactoryProcess" >
+    <id column="idt_factory_process" property="idt_factory_process" jdbcType="INTEGER" />
+    <result column="productId" property="productId" jdbcType="CHAR" />
+    <result column="unitId" property="unitId" jdbcType="CHAR" />
+    <result column="couter" property="couter" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    idt_factory_process, productId, unitId, couter
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_factory_process
+    where idt_factory_process = #{idt_factory_process,jdbcType=INTEGER}
+  </select>
+  <select id="selectProcess" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_factory_process
+    where productId = #{productId,jdbcType=CHAR}
+      and
+        unitId = #{unitId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_factory_process
+    where idt_factory_process = #{idt_factory_process,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.FactoryProcess" useGeneratedKeys="true" keyProperty="idt_factory_process" >
+    insert into t_factory_process ( productId, unitId, couter)
+    values (#{productId,jdbcType=CHAR}, #{unitId,jdbcType=CHAR}, 
+      #{couter,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.FactoryProcess" >
+    insert into t_factory_process
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idt_factory_process != null" >
+        idt_factory_process,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="unitId != null" >
+        unitId,
+      </if>
+      <if test="couter != null" >
+        couter,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idt_factory_process != null" >
+        #{idt_factory_process,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=CHAR},
+      </if>
+      <if test="couter != null" >
+        #{couter,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.FactoryProcess" >
+    update t_factory_process
+    <set >
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=CHAR},
+      </if>
+      <if test="unitId != null" >
+        unitId = #{unitId,jdbcType=CHAR},
+      </if>
+      <if test="couter != null" >
+        couter = #{couter,jdbcType=BIGINT},
+      </if>
+    </set>
+    where idt_factory_process = #{idt_factory_process,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.FactoryProcess" >
+    update t_factory_process
+    set productId = #{productId,jdbcType=CHAR},
+      unitId = #{unitId,jdbcType=CHAR},
+      couter = #{couter,jdbcType=BIGINT}
+    where idt_factory_process = #{idt_factory_process,jdbcType=INTEGER}
+  </update>
+</mapper>

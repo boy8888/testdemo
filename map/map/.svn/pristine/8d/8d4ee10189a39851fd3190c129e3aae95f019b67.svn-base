@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.RedPaperProductMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.RedPaperProduct" >
+    <id column="productId" property="productId" jdbcType="CHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="productShortName" property="productShortName" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="expiresType" property="expiresType" jdbcType="CHAR" />
+    <result column="expiresLength" property="expiresLength" jdbcType="INTEGER" />
+    <result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, productName, productShortName, insertTime, updateTime, status, expiresType, 
+    expiresLength, expireTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_red_paper_product
+    where productId = #{productId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_red_paper_product
+    where productId = #{productId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.RedPaperProduct" >
+    insert into t_red_paper_product (productId, productName, productShortName, 
+      insertTime, updateTime, status, 
+      expiresType, expiresLength, expireTime
+      )
+    values (#{productId,jdbcType=CHAR}, #{productName,jdbcType=VARCHAR}, #{productShortName,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, 
+      #{expiresType,jdbcType=CHAR}, #{expiresLength,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.RedPaperProduct" >
+    insert into t_red_paper_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="productShortName != null" >
+        productShortName,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="expiresType != null" >
+        expiresType,
+      </if>
+      <if test="expiresLength != null" >
+        expiresLength,
+      </if>
+      <if test="expireTime != null" >
+        expireTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productShortName != null" >
+        #{productShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="expiresType != null" >
+        #{expiresType,jdbcType=CHAR},
+      </if>
+      <if test="expiresLength != null" >
+        #{expiresLength,jdbcType=INTEGER},
+      </if>
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.RedPaperProduct" >
+    update t_red_paper_product
+    <set >
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productShortName != null" >
+        productShortName = #{productShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="expiresType != null" >
+        expiresType = #{expiresType,jdbcType=CHAR},
+      </if>
+      <if test="expiresLength != null" >
+        expiresLength = #{expiresLength,jdbcType=INTEGER},
+      </if>
+      <if test="expireTime != null" >
+        expireTime = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where productId = #{productId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.RedPaperProduct" >
+    update t_red_paper_product
+    set productName = #{productName,jdbcType=VARCHAR},
+      productShortName = #{productShortName,jdbcType=VARCHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=CHAR},
+      expiresType = #{expiresType,jdbcType=CHAR},
+      expiresLength = #{expiresLength,jdbcType=INTEGER},
+      expireTime = #{expireTime,jdbcType=TIMESTAMP}
+    where productId = #{productId,jdbcType=CHAR}
+  </update>
+</mapper>

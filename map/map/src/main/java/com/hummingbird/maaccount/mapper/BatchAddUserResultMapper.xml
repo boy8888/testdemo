@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.BatchAddUserResultMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.BatchAddUserResult" >
+    <id column="batch_id" property="batchId" jdbcType="INTEGER" />
+    <result column="total_request" property="totalRequest" jdbcType="INTEGER" />
+    <result column="successd_request" property="successdRequest" jdbcType="INTEGER" />
+    <result column="channel_no" property="channelNo" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="err_msg" property="errMsg" jdbcType="VARCHAR" />
+    <result column="spent_time" property="spentTime" jdbcType="INTEGER" />
+    <result column="channel_name" property="channelName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    batch_id, total_request, successd_request, channel_no, insert_time, status, err_msg, 
+    spent_time, channel_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_batch_opencard_result
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_batch_opencard_result
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.BatchAddUserResult"  useGeneratedKeys="true" keyProperty="batchId">
+    insert into t_batch_opencard_result (batch_id, total_request, successd_request, 
+      channel_no, insert_time, status, 
+      err_msg, spent_time, channel_name
+      )
+    values (#{batchId,jdbcType=INTEGER}, #{totalRequest,jdbcType=INTEGER}, #{successdRequest,jdbcType=INTEGER}, 
+      #{channelNo,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{errMsg,jdbcType=VARCHAR}, #{spentTime,jdbcType=INTEGER}, #{channelName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.BatchAddUserResult"  useGeneratedKeys="true" keyProperty="batchId">
+    insert into t_batch_opencard_result
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        batch_id,
+      </if>
+      <if test="totalRequest != null" >
+        total_request,
+      </if>
+      <if test="successdRequest != null" >
+        successd_request,
+      </if>
+      <if test="channelNo != null" >
+        channel_no,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="errMsg != null" >
+        err_msg,
+      </if>
+      <if test="spentTime != null" >
+        spent_time,
+      </if>
+      <if test="channelName != null" >
+        channel_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="totalRequest != null" >
+        #{totalRequest,jdbcType=INTEGER},
+      </if>
+      <if test="successdRequest != null" >
+        #{successdRequest,jdbcType=INTEGER},
+      </if>
+      <if test="channelNo != null" >
+        #{channelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errMsg != null" >
+        #{errMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="spentTime != null" >
+        #{spentTime,jdbcType=INTEGER},
+      </if>
+      <if test="channelName != null" >
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.BatchAddUserResult" >
+    update t_batch_opencard_result
+    <set >
+      <if test="totalRequest != null" >
+        total_request = #{totalRequest,jdbcType=INTEGER},
+      </if>
+      <if test="successdRequest != null" >
+        successd_request = #{successdRequest,jdbcType=INTEGER},
+      </if>
+      <if test="channelNo != null" >
+        channel_no = #{channelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errMsg != null" >
+        err_msg = #{errMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="spentTime != null" >
+        spent_time = #{spentTime,jdbcType=INTEGER},
+      </if>
+      <if test="channelName != null" >
+        channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.BatchAddUserResult" >
+    update t_batch_opencard_result
+    set total_request = #{totalRequest,jdbcType=INTEGER},
+      successd_request = #{successdRequest,jdbcType=INTEGER},
+      channel_no = #{channelNo,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      err_msg = #{errMsg,jdbcType=VARCHAR},
+      spent_time = #{spentTime,jdbcType=INTEGER},
+      channel_name = #{channelName,jdbcType=VARCHAR}
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </update>
+</mapper>

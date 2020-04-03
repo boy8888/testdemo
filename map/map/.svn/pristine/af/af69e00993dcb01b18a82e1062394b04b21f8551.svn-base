@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.DiscountCardAccountOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.DiscountCardAccountOrder" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appname" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="CHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="CHAR" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="originalOrderId" property="originalorderId" jdbcType="VARCHAR" />
+    <result column="originalTable" property="originaltable" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="appAlias" property="appalias" jdbcType="VARCHAR" />
+    <result column="appAlias2" property="appalias2" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="sellerId" property="sellerId" jdbcType="VARCHAR" />
+    <result column="storeId" property="storeId" jdbcType="VARCHAR" />
+    <result column="terminalId" property="terminalId" jdbcType="VARCHAR" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    <result column="terminalOrderId" property="terminalOrderId" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productPrice" jdbcType="INTEGER" />
+    <result column="productQuantity" property="productQuantity" jdbcType="VARCHAR" />
+    <result column="channelOrderId" property="channelOrderId" jdbcType="VARCHAR" />
+    <result column="shiftInfo" property="shiftInfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderId, appId, appName, accountId, method, flowDirection, sum, balance, peerAccountType, 
+    peerAccountId, peerAccountUnit, remark, originalOrderId, originalTable, status, insertTime, 
+    updateTime, appAlias, appAlias2, appOrderId, type, sellerId, storeId, terminalId, 
+    operatorId, batchNo, terminalOrderId, productName, productPrice, productQuantity, 
+    channelOrderId,shiftInfo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAppOrderId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account_order
+    where appId = #{appId,jdbcType=VARCHAR}
+    and appOrderId = #{appOrderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByChannelOrderId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account_order
+    where appId = #{appId,jdbcType=VARCHAR}
+    and channelOrderId = #{channelOrderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_discountcard_account_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="createOrder" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccountOrder" >
+    insert into t_discountcard_account_order (orderId, appId, appName, 
+      accountId, method, flowDirection, 
+      sum, balance, peerAccountType, 
+      peerAccountId, peerAccountUnit, remark, 
+      originalOrderId, originalTable, status, 
+      insertTime, updateTime, appAlias, 
+      appAlias2, appOrderId, type, 
+      sellerId, storeId, terminalId, 
+      operatorId, batchNo, terminalOrderId, 
+      productName, productPrice, productQuantity, 
+      channelOrderId,shiftInfo)
+    values (#{orderId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appname,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{flowDirection,jdbcType=CHAR}, 
+      #{sum,jdbcType=BIGINT}, #{balance,jdbcType=BIGINT}, #{peerAccountType,jdbcType=CHAR}, 
+      #{peerAccountId,jdbcType=VARCHAR}, #{peerAccountUnit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{originalorderId,jdbcType=VARCHAR}, #{originaltable,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{appalias,jdbcType=VARCHAR}, 
+      #{appalias2,jdbcType=VARCHAR}, #{appOrderId,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{sellerId,jdbcType=VARCHAR}, #{storeId,jdbcType=VARCHAR}, #{terminalId,jdbcType=VARCHAR}, 
+      #{operatorId,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, #{terminalOrderId,jdbcType=VARCHAR}, 
+      #{productName,jdbcType=VARCHAR}, #{productPrice,jdbcType=INTEGER}, #{productQuantity,jdbcType=VARCHAR}, 
+      #{channelOrderId,jdbcType=VARCHAR},#{shiftInfo})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccountOrder" >
+    insert into t_discountcard_account_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="appId != null" >
+        appId,
+      </if>
+      <if test="appname != null" >
+        appName,
+      </if>
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="flowDirection != null" >
+        flowDirection,
+      </if>
+      <if test="sum != null" >
+        sum,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="peerAccountType != null" >
+        peerAccountType,
+      </if>
+      <if test="peerAccountId != null" >
+        peerAccountId,
+      </if>
+      <if test="peerAccountUnit != null" >
+        peerAccountUnit,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="originalorderId != null" >
+        originalOrderId,
+      </if>
+      <if test="originaltable != null" >
+        originalTable,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="appalias != null" >
+        appAlias,
+      </if>
+      <if test="appalias2 != null" >
+        appAlias2,
+      </if>
+      <if test="appOrderId != null" >
+        appOrderId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sellerId != null" >
+        sellerId,
+      </if>
+      <if test="storeId != null" >
+        storeId,
+      </if>
+      <if test="terminalId != null" >
+        terminalId,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="batchNo != null" >
+        batchNo,
+      </if>
+      <if test="terminalOrderId != null" >
+        terminalOrderId,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="productPrice != null" >
+        productPrice,
+      </if>
+      <if test="productQuantity != null" >
+        productQuantity,
+      </if>
+      <if test="channelOrderId != null" >
+        channelOrderId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appname != null" >
+        #{appname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="flowDirection != null" >
+        #{flowDirection,jdbcType=CHAR},
+      </if>
+      <if test="sum != null" >
+        #{sum,jdbcType=BIGINT},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="peerAccountType != null" >
+        #{peerAccountType,jdbcType=CHAR},
+      </if>
+      <if test="peerAccountId != null" >
+        #{peerAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="peerAccountUnit != null" >
+        #{peerAccountUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originalorderId != null" >
+        #{originalorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="originaltable != null" >
+        #{originaltable,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appalias != null" >
+        #{appalias,jdbcType=VARCHAR},
+      </if>
+      <if test="appalias2 != null" >
+        #{appalias2,jdbcType=VARCHAR},
+      </if>
+      <if test="appOrderId != null" >
+        #{appOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalOrderId != null" >
+        #{terminalOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productQuantity != null" >
+        #{productQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="channelOrderId != null" >
+        #{channelOrderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccountOrder" >
+    update t_discountcard_account_order
+    <set >
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appname != null" >
+        appName = #{appname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        accountId = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="flowDirection != null" >
+        flowDirection = #{flowDirection,jdbcType=CHAR},
+      </if>
+      <if test="sum != null" >
+        sum = #{sum,jdbcType=BIGINT},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="peerAccountType != null" >
+        peerAccountType = #{peerAccountType,jdbcType=CHAR},
+      </if>
+      <if test="peerAccountId != null" >
+        peerAccountId = #{peerAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="peerAccountUnit != null" >
+        peerAccountUnit = #{peerAccountUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="originalorderId != null" >
+        originalOrderId = #{originalorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="originaltable != null" >
+        originalTable = #{originaltable,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appalias != null" >
+        appAlias = #{appalias,jdbcType=VARCHAR},
+      </if>
+      <if test="appalias2 != null" >
+        appAlias2 = #{appalias2,jdbcType=VARCHAR},
+      </if>
+      <if test="appOrderId != null" >
+        appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="sellerId != null" >
+        sellerId = #{sellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        storeId = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalId != null" >
+        terminalId = #{terminalId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        batchNo = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalOrderId != null" >
+        terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        productPrice = #{productPrice,jdbcType=INTEGER},
+      </if>
+      <if test="productQuantity != null" >
+        productQuantity = #{productQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="channelOrderId != null" >
+        channelOrderId = #{channelOrderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccountOrder" >
+    update t_discountcard_account_order
+    set appId = #{appId,jdbcType=VARCHAR},
+      appName = #{appname,jdbcType=VARCHAR},
+      accountId = #{accountId,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      flowDirection = #{flowDirection,jdbcType=CHAR},
+      sum = #{sum,jdbcType=BIGINT},
+      balance = #{balance,jdbcType=BIGINT},
+      peerAccountType = #{peerAccountType,jdbcType=CHAR},
+      peerAccountId = #{peerAccountId,jdbcType=VARCHAR},
+      peerAccountUnit = #{peerAccountUnit,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      originalOrderId = #{originalorderId,jdbcType=VARCHAR},
+      originalTable = #{originaltable,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      appAlias = #{appalias,jdbcType=VARCHAR},
+      appAlias2 = #{appalias2,jdbcType=VARCHAR},
+      appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      sellerId = #{sellerId,jdbcType=VARCHAR},
+      storeId = #{storeId,jdbcType=VARCHAR},
+      terminalId = #{terminalId,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      batchNo = #{batchNo,jdbcType=VARCHAR},
+      terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR},
+      productName = #{productName,jdbcType=VARCHAR},
+      productPrice = #{productPrice,jdbcType=INTEGER},
+      productQuantity = #{productQuantity,jdbcType=VARCHAR},
+      channelOrderId = #{channelOrderId,jdbcType=VARCHAR}
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="selectPosOrder" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account_order
+    where sellerId = #{sellerId,jdbcType=VARCHAR}
+    and terminalId = #{terminalId,jdbcType=VARCHAR}
+    and terminalOrderId = #{terminalOrderId,jdbcType=VARCHAR}
+    and batchNo = #{batchNo,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByOriginalOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account_order
+    where originalOrderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  
+  
+</mapper>

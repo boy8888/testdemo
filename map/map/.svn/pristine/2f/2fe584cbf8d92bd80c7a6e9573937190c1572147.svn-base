@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.RealNameAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.RealNameAuth" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idType" property="idtype" jdbcType="CHAR" />
+    <result column="idCode" property="idcode" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="picture2" property="picture2" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="checkTime" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="insertTime" property="inserttime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="applyTime" property="applytime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, name, idType, idCode, picture, picture2, status, reason, checkTime, insertTime, 
+    updateTime, remark, applyTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_real_name_auth
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_real_name_auth
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.RealNameAuth" >
+    insert into t_real_name_auth (userId, name, idType, 
+      idCode, picture, picture2, 
+      status, reason, checkTime, 
+      insertTime, updateTime, remark, 
+      applyTime)
+    values (#{userid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{idtype,jdbcType=CHAR}, 
+      #{idcode,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{reason,jdbcType=VARCHAR}, #{checktime,jdbcType=TIMESTAMP}, 
+      #{inserttime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{applytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.RealNameAuth" >
+    insert into t_real_name_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="idtype != null" >
+        idType,
+      </if>
+      <if test="idcode != null" >
+        idCode,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="picture2 != null" >
+        picture2,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="checktime != null" >
+        checkTime,
+      </if>
+      <if test="inserttime != null" >
+        insertTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="applytime != null" >
+        applyTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idtype != null" >
+        #{idtype,jdbcType=CHAR},
+      </if>
+      <if test="idcode != null" >
+        #{idcode,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null" >
+        #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null" >
+        #{applytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.RealNameAuth" >
+    update t_real_name_auth
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idtype != null" >
+        idType = #{idtype,jdbcType=CHAR},
+      </if>
+      <if test="idcode != null" >
+        idCode = #{idcode,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null" >
+        picture2 = #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="checktime != null" >
+        checkTime = #{checktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inserttime != null" >
+        insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="applytime != null" >
+        applyTime = #{applytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.RealNameAuth" >
+    update t_real_name_auth
+    set name = #{name,jdbcType=VARCHAR},
+      idType = #{idtype,jdbcType=CHAR},
+      idCode = #{idcode,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      picture2 = #{picture2,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      checkTime = #{checktime,jdbcType=TIMESTAMP},
+      insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      applyTime = #{applytime,jdbcType=TIMESTAMP}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.FactoryTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.FactoryTask" >
+    <id column="idt_factory_task" property="idt_factory_task" jdbcType="INTEGER" />
+    <result column="productId" property="productId" jdbcType="CHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="taskName" property="taskName" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="unitId" property="unitId" jdbcType="CHAR" />
+    <result column="counter" property="counter" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    idt_factory_task, productId, productName, taskName, amount, remark, status, startTime, 
+    unitId, counter
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_factory_task
+    where idt_factory_task = #{idt_factory_task,jdbcType=INTEGER}
+  </select>
+  <select id="selectTask4Gen" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_factory_task
+    where status='CRT'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_factory_task
+    where idt_factory_task = #{idt_factory_task,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.FactoryTask" >
+    insert into t_factory_task (idt_factory_task, productId, productName, 
+      taskName, amount, remark, 
+      status, startTime, unitId, 
+      counter)
+    values (#{idt_factory_task,jdbcType=INTEGER}, #{productId,jdbcType=CHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{taskName,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{startTime,jdbcType=TIMESTAMP}, #{unitId,jdbcType=CHAR}, 
+      #{counter,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.FactoryTask" >
+    insert into t_factory_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idt_factory_task != null" >
+        idt_factory_task,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="taskName != null" >
+        taskName,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="unitId != null" >
+        unitId,
+      </if>
+      <if test="counter != null" >
+        counter,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idt_factory_task != null" >
+        #{idt_factory_task,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null" >
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=CHAR},
+      </if>
+      <if test="counter != null" >
+        #{counter,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.FactoryTask" >
+    update t_factory_task
+    <set >
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=CHAR},
+      </if>
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskName != null" >
+        taskName = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitId != null" >
+        unitId = #{unitId,jdbcType=CHAR},
+      </if>
+      <if test="counter != null" >
+        counter = #{counter,jdbcType=BIGINT},
+      </if>
+    </set>
+    where idt_factory_task = #{idt_factory_task,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.FactoryTask" >
+    update t_factory_task
+    set productId = #{productId,jdbcType=CHAR},
+      productName = #{productName,jdbcType=VARCHAR},
+      taskName = #{taskName,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      unitId = #{unitId,jdbcType=CHAR},
+      counter = #{counter,jdbcType=BIGINT}
+    where idt_factory_task = #{idt_factory_task,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectCRTTaskByProductId" resultType="int" useCache="false">
+    select 
+    count(idt_factory_task)
+    from t_factory_task
+    where status in ('CRT','DNG') and productId=#{productId,jdbcType=CHAR}
+  </select>
+</mapper>

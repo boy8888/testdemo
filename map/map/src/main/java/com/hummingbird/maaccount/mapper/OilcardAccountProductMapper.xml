@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.OilcardAccountProductMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.OilcardAccountProduct" >
+    <id column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="totalStages" property="totalStages" jdbcType="INTEGER" />
+    <result column="stageRule" property="stageRule" jdbcType="CHAR" />
+    <result column="returnSum" property="returnSum" jdbcType="BIGINT" />
+    <result column="returnRate" property="returnRate" jdbcType="INTEGER" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="expiresType" property="expiresType" jdbcType="CHAR" />
+    <result column="expiresLength" property="expiresLength" jdbcType="INTEGER" />
+    <result column="returnPeriodType" property="returnPeriodType" jdbcType="VARCHAR" />
+    <result column="returnPeriodInterval" property="returnPeriodInterval" jdbcType="INTEGER" />
+    <result column="initialSum" property="initialSum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, remark, status, totalStages, stageRule, returnSum, returnRate, insertTime, 
+    updateTime, expiresType, expiresLength, productName, 
+    returnPeriodType, returnPeriodInterval, initialSum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_product
+    where productId = #{productId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_oilcard_product
+    where productId = #{productId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.OilcardAccountProduct" >
+    insert into t_oilcard_product (productId, remark, status, 
+      amount, totalStages, stageRule, 
+      returnSum, returnRate, insertTime, 
+      updateTime, expiresType, expiresLength, 
+      productName, purchaseAmount, returnPeriodType, 
+      returnPeriodInterval, initialSum)
+    values (#{productId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{amount,jdbcType=BIGINT}, #{totalStages,jdbcType=INTEGER}, #{stageRule,jdbcType=CHAR}, 
+      #{returnSum,jdbcType=BIGINT}, #{returnRate,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{expiresType,jdbcType=CHAR}, #{expiresLength,jdbcType=INTEGER}, 
+      #{productName,jdbcType=VARCHAR}, #{purchaseAmount,jdbcType=BIGINT}, #{returnPeriodType,jdbcType=VARCHAR}, 
+      #{returnPeriodInterval,jdbcType=INTEGER}, #{initialSum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.OilcardAccountProduct" >
+    insert into t_oilcard_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="totalStages != null" >
+        totalStages,
+      </if>
+      <if test="stageRule != null" >
+        stageRule,
+      </if>
+      <if test="returnSum != null" >
+        returnSum,
+      </if>
+      <if test="returnRate != null" >
+        returnRate,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="expiresType != null" >
+        expiresType,
+      </if>
+      <if test="expiresLength != null" >
+        expiresLength,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+      <if test="purchaseAmount != null" >
+        purchaseAmount,
+      </if>
+      <if test="returnPeriodType != null" >
+        returnPeriodType,
+      </if>
+      <if test="returnPeriodInterval != null" >
+        returnPeriodInterval,
+      </if>
+      <if test="initialSum != null" >
+        initialSum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="totalStages != null" >
+        #{totalStages,jdbcType=INTEGER},
+      </if>
+      <if test="stageRule != null" >
+        #{stageRule,jdbcType=CHAR},
+      </if>
+      <if test="returnSum != null" >
+        #{returnSum,jdbcType=BIGINT},
+      </if>
+      <if test="returnRate != null" >
+        #{returnRate,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiresType != null" >
+        #{expiresType,jdbcType=CHAR},
+      </if>
+      <if test="expiresLength != null" >
+        #{expiresLength,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseAmount != null" >
+        #{purchaseAmount,jdbcType=BIGINT},
+      </if>
+      <if test="returnPeriodType != null" >
+        #{returnPeriodType,jdbcType=VARCHAR},
+      </if>
+      <if test="returnPeriodInterval != null" >
+        #{returnPeriodInterval,jdbcType=INTEGER},
+      </if>
+      <if test="initialSum != null" >
+        #{initialSum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.OilcardAccountProduct" >
+    update t_oilcard_product
+    <set >
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="totalStages != null" >
+        totalStages = #{totalStages,jdbcType=INTEGER},
+      </if>
+      <if test="stageRule != null" >
+        stageRule = #{stageRule,jdbcType=CHAR},
+      </if>
+      <if test="returnSum != null" >
+        returnSum = #{returnSum,jdbcType=BIGINT},
+      </if>
+      <if test="returnRate != null" >
+        returnRate = #{returnRate,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiresType != null" >
+        expiresType = #{expiresType,jdbcType=CHAR},
+      </if>
+      <if test="expiresLength != null" >
+        expiresLength = #{expiresLength,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseAmount != null" >
+        purchaseAmount = #{purchaseAmount,jdbcType=BIGINT},
+      </if>
+      <if test="returnPeriodType != null" >
+        returnPeriodType = #{returnPeriodType,jdbcType=VARCHAR},
+      </if>
+      <if test="returnPeriodInterval != null" >
+        returnPeriodInterval = #{returnPeriodInterval,jdbcType=INTEGER},
+      </if>
+      <if test="initialSum != null" >
+        initialSum = #{initialSum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where productId = #{productId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.OilcardAccountProduct" >
+    update t_oilcard_product
+    set remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      totalStages = #{totalStages,jdbcType=INTEGER},
+      stageRule = #{stageRule,jdbcType=CHAR},
+      returnSum = #{returnSum,jdbcType=BIGINT},
+      returnRate = #{returnRate,jdbcType=INTEGER},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      expiresType = #{expiresType,jdbcType=CHAR},
+      expiresLength = #{expiresLength,jdbcType=INTEGER},
+      productName = #{productName,jdbcType=VARCHAR},
+      purchaseAmount = #{purchaseAmount,jdbcType=BIGINT},
+      returnPeriodType = #{returnPeriodType,jdbcType=VARCHAR},
+      returnPeriodInterval = #{returnPeriodInterval,jdbcType=INTEGER},
+      initialSum = #{initialSum,jdbcType=INTEGER}
+    where productId = #{productId,jdbcType=VARCHAR}
+  </update>
+</mapper>

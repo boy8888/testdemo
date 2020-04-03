@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.TokenMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.Token" >
+    <id column="token" property="token" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="expireIn" property="expirein" jdbcType="INTEGER" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    token, userId, expireIn, appId, insertTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_token
+    where token = #{token,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_user_token
+    where token = #{token,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.Token" >
+    insert into t_user_token (token, userId, expireIn, 
+      appId, insertTime, updateTime
+      )
+    values (#{token,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{expirein,jdbcType=INTEGER}, 
+      #{appId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.Token" >
+    insert into t_user_token
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="expirein != null" >
+        expireIn,
+      </if>
+      <if test="appid != null" >
+        appId,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="expirein != null" >
+        #{expirein,jdbcType=INTEGER},
+      </if>
+      <if test="appid != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.Token" >
+    update t_user_token
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="expirein != null" >
+        expireIn = #{expirein,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null" >
+        appId = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where token = #{token,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.Token" >
+    update t_user_token
+    set userId = #{userId,jdbcType=INTEGER},
+      expireIn = #{expirein,jdbcType=INTEGER},
+      appId = #{appId,jdbcType=VARCHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where token = #{token,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="selectByToken" resultMap="BaseResultMap" parameterType="com.hummingbird.commonbiz.vo.UserToken" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_token
+    where 1=1 
+    <if test="token != null" >
+       and token = #{token,jdbcType=VARCHAR}
+      </if>
+      <if test="mobileNum != null" >
+        and userId = #{mobileNum,jdbcType=VARCHAR} 
+      </if>
+      <if test="appId != null" >
+        and appId = #{appId,jdbcType=VARCHAR} 
+      </if>
+  </select>
+  <select id="selectByTokenStr" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_token
+    where  token = #{token,jdbcType=VARCHAR}
+  </select>
+</mapper>

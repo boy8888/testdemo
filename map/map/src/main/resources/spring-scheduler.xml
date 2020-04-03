@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	<!-- 公用任务线程池定义  -->
+<!-- 	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		最少线程数
+	    <property name="corePoolSize" value="1" />
+	    最大线程数
+	    <property name="maxPoolSize" value="1" />
+	    允许的空闲时间(秒)
+	    <property name="keepAliveSeconds" value="60" />
+	    队列容量
+	    <property name="queueCapacity" value="50" />
+	 </bean> --> 
+
+
+    <!-- 调度器  -->  
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="triggers">  
+            <list>  
+                 <!-- 触发器列表 -->  
+                <ref bean="transOilcardMoneyTask" />  
+                <ref bean="generateAccountTask" />  
+                <ref bean="transOilcard2UseableByDayTask" />  
+                <ref bean="smsmtDelayTask" />  
+                <!-- <ref bean="createSupplierShopTask" /> -->
+                <ref bean="createFacotryTaskTask" />
+            </list>  
+        </property>  
+    </bean> 
+    	    	 
+	<!-- 定时把分期卡的可用余额转移至其现金帐户-->
+	<bean id="transOilcardMoneyTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="transFromOilcard2cashJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 */1 * * * ?</value>
+		</property>
+	</bean>
+	<bean id="generateAccountTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="generateAccountJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 */2 * * * ?</value>
+		</property>
+	</bean>
+	<!-- 把分期卡的钱转为可用余额 -->
+	<bean id="transOilcard2UseableByDayTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="transOilcard2UseableByDayJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 17 0 * * ?</value>
+		</property>
+	</bean>
+	<!-- 延时短信发送 -->
+	<bean id="smsmtDelayTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="smsmtDelayJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 */15 8-20 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 自动创建账户对应的factoryTask -->
+	<bean id="createFacotryTaskTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="createFacotryTaskJob" />
+		</property>
+		<property name="cronExpression">
+			<value>30 1 */8 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 定时到epay系统查询商户信息并创建到本地数据库-->
+	<!-- <bean id="createSupplierShopTask" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="createSupplierShopJob" />
+		</property>
+		<property name="cronExpression">
+		    半夜三点开始每隔三天执行一次
+			<value>0 0 1 */3 * ?</value>
+		</property>
+	</bean> -->
+	
+	<bean id="transFromOilcard2cashJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="oilcardScheduleService" /></property>
+		<property name="targetMethod" value="autoTransFromOilcard2cash" />
+		<property name="concurrent" value="false"/> 
+	</bean>
+	<bean id="generateAccountJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="accountIdGen" /></property>
+		<property name="targetMethod" value="genAccountId" />
+		<property name="concurrent" value="false"/> 
+	</bean>
+	<bean id="transOilcard2UseableByDayJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="oilcardAccountServiceImpl" /></property>
+		<property name="targetMethod" value="transOilcard2UseableByDay" />
+		<property name="concurrent" value="false"/> 
+	</bean>
+	<bean id="smsmtDelayJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="smsSendService" /></property>
+		<property name="targetMethod" value="delaySend" />
+		<property name="concurrent" value="false"/> 
+	</bean>
+	
+	<!-- <bean id="createSupplierShopJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="createSupplierShopScheduler" /></property>
+		<property name="targetMethod" value="createSupplierShop" />
+		<property name="concurrent" value="false"/> 
+	</bean> -->
+	
+	
+	<bean id="createFacotryTaskJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="createFactoryTaskSchedule" /></property>
+		<property name="targetMethod" value="createFactoryTask" />
+		<property name="concurrent" value="false"/> 
+	</bean>
+	
+</beans>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.FactoryAccountIdMapper" >
+  <cache></cache>
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.FactoryAccountId" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="accountType" property="accountType" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="ver" property="ver" jdbcType="INTEGER" />
+    <result column="productId" property="productId" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    accountId, status, accountType, insertTime, ver, productId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_factory_account_id
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectUseableAccountIdWithProc" resultType="java.lang.String" parameterType="java.util.Map" statementType="CALLABLE" >
+    { call proc_getaccountid2(#{productId,jdbcType=VARCHAR,mode=IN},#{accountId,jdbcType=VARCHAR,mode=OUT})}
+  </select>
+  <select id="selectUseableAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   select * from (select * from t_factory_account_id where productid = #{productId,jdbcType=VARCHAR} and `status` = 'NUS' limit 300) a order by RAND() limit 5;
+  </select>
+  <select id="selectUseableAccountId" resultType="java.lang.String" parameterType="java.lang.String" >
+    select get_account_id_by_productid(#{productId,jdbcType=VARCHAR})
+  </select>
+  <select id="selectUseableAccountIdByAccountType" resultType="java.lang.String" parameterType="java.lang.String" >
+    select get_account_id(#{accountType,jdbcType=VARCHAR})
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_factory_account_id
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.FactoryAccountId" >
+    insert into t_factory_account_id (accountId, status, accountType, 
+      insertTime, ver, productId
+      )
+    values (#{accountId,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{accountType,jdbcType=CHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{ver,jdbcType=INTEGER}, #{productId,jdbcType=CHAR})
+  </insert>
+  <insert id="createAccounts" >
+    insert into t_factory_account_id (accountId, status, accountType, 
+      insertTime,productId)
+    values 
+    <foreach collection="insertlist" item="item" index="index"
+  separator=",">
+  ( #{item},'NUS',#{product.accountType},now(),#{product.productId}
+	 )
+  </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.FactoryAccountId" >
+    insert into t_factory_account_id
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="accountType != null" >
+        accountType,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="ver != null" >
+        ver,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ver != null" >
+        #{ver,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.FactoryAccountId" >
+    update t_factory_account_id
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="accountType != null" >
+        accountType = #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ver != null" >
+        ver = #{ver,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=CHAR},
+      </if>
+    </set>
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="useThisAccount" parameterType="com.hummingbird.maaccount.entity.FactoryAccountId" >
+    update t_factory_account_id
+    set  status = 'USD',  ver = ver+1
+    where accountId = #{accountId,jdbcType=VARCHAR} and ver=#{ver}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.FactoryAccountId" >
+    update t_factory_account_id
+    set status = #{status,jdbcType=CHAR},
+      accountType = #{accountType,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      ver = #{ver,jdbcType=INTEGER},
+      productId = #{productId,jdbcType=CHAR}
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据状态和产品ID查询帐号的数量 -->
+  <select id="selectCountByProductIdAndStatus" resultType="java.lang.Long" useCache="false">
+    select 
+      count(accountId)
+    from t_factory_account_id
+    where productId = #{productId,jdbcType=CHAR}
+    <if test="status != null" >
+        and status = #{status,jdbcType=CHAR}
+    </if>
+  </select>
+</mapper>

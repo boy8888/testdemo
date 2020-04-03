@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.OilcardAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.OilcardAccount" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="restAmount" property="restAmount" jdbcType="BIGINT" />
+    <result column="restStages" property="restStages" jdbcType="INTEGER" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="channelNo" property="channelNo" jdbcType="VARCHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="initSumReturned" property="initSumReturned" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, accountId, balance, remark, status, amount, restAmount, restStages, startTime, 
+    endTime, insertTime, updateTime, productId,channelNo,signature, initSumReturned
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByUserId4list"  parameterType="java.lang.Integer">
+     select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    
+    where userId = #{userId,jdbcType=INTEGER} 
+    and status = 'OK#'
+    <if test="terminalId != null " >
+    	and productId in  (
+    		select distinct productId from t_product_terminal_list l where (l.terminalId=#{terminalId} or l.terminalId = 'ALL_TERMINAL_CAN')
+    	)
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_oilcard_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.OilcardAccount" >
+    update t_oilcard_account
+    set userId = #{userId,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      channelNo = #{channelNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      restAmount = #{restAmount,jdbcType=BIGINT},
+      restStages = #{restStages,jdbcType=INTEGER},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productId = #{productId,jdbcType=VARCHAR},
+       signature = #{signature,jdbcType=VARCHAR},
+      initSumReturned = #{initSumReturned,jdbcType=TINYINT}
+    where  accountId= #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateAccount" parameterType="com.hummingbird.maaccount.entity.OilcardAccount" >
+    update t_oilcard_account
+    set userId = #{userId,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+       signature = #{signature,jdbcType=VARCHAR},
+      initSumReturned = #{initSumReturned,jdbcType=TINYINT},
+      amount = #{amount,jdbcType=BIGINT},
+      restAmount = #{restAmount,jdbcType=BIGINT},
+      restStages = #{restStages,jdbcType=INTEGER},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productId = #{productId,jdbcType=VARCHAR}
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+<!--     <update id="expense"  >
+    update t_oilcard_account
+    set balance = balance+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and balance &gt;=  abs(#{order.sum})
+    and status='OK#'
+  </update> -->
+
+    <insert id="createAccount" parameterType="com.hummingbird.maaccount.entity.OilcardAccount" >
+     insert into t_oilcard_account (userId, accountId, balance, 
+      remark, status, amount, 
+      restAmount, restStages, startTime, 
+      endTime, insertTime, updateTime, channelNo,
+      productId,signature,initSumReturned)
+    values (#{userId,jdbcType=INTEGER}, #{accountId,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{amount,jdbcType=BIGINT}, 
+      #{restAmount,jdbcType=BIGINT}, #{restStages,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{channelNo},#{productId,jdbcType=VARCHAR},#{signature,jdbcType=VARCHAR},#{initSumReturned})
+  </insert>
+<!--     <update id="income"  >
+    update t_oilcard_account
+    set balance = balance+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and status='OK#'
+  </update> -->
+  <select  resultMap="BaseResultMap" id="getAccountByMobile"  parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    where userId in (select userid from t_user where mobileNum= #{userId,jdbcType=INTEGER} )
+  </select>
+  <select  resultMap="BaseResultMap" id="selectUseableOilcard"  parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    where userId in (select userid from t_user where mobileNum= #{userId,jdbcType=INTEGER} )
+    and status='OK#'
+    and balance > 0
+    order by balance;
+  </select>
+  <select  resultType="java.lang.Long" id="statAccountBalance"  parameterType="String">
+    select 
+    ifnull(sum(balance),0)
+    from t_oilcard_account
+    where userId in (select userid from t_user where mobileNum= #{mobileNum} )
+    and status='OK#'
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByUserId"  parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    where userId = #{userId,jdbcType=INTEGER} 
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByAccountId"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    where accountId = #{accountId,jdbcType=VARCHAR} 
+  </select>
+    <select  resultMap="BaseResultMap" id="selectAllUseableOilcard"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_oilcard_account
+    where  status in('OK#','END')
+    and balance > 0
+    limit 3000
+  </select>
+    <select  resultMap="BaseResultMap" id="selectTimeToReturn"  >
+    <![CDATA[
+    select 
+    *
+    from t_oilcard_account
+    where  status='OK#' and restStages > 0 and (select  
+case p.returnPeriodType when 'DAY' then ADDDATE(startTime,((totalStages-restStages)*returnPeriodInterval )) 
+                   when 'MON' then ADDDATE(startTime	,INTERVAL ((totalStages-restStages)*returnPeriodInterval ) MONTH) end
+from t_oilcard_product p where p.productId=t_oilcard_account.productId
+) <= now()
+   ]]>
+  </select>
+  
+   <resultMap id="CardResultMap" type="com.hummingbird.maaccount.vo.QueryUserCardListOilResultVO" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+   
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="restStages" property="restStages" jdbcType="INTEGER" />
+    <result column="restAmount" property="restAmount" jdbcType="BIGINT" />
+    <result column="totalStages" property="totalStages" jdbcType="INTEGER" />
+ </resultMap>
+  <sql id="Card_Column_List" >
+    accountId,  status, amount, startTime,endTime,restStages,restAmount,totalStages
+  </sql>
+  <select  resultMap="CardResultMap" id="getUserAccounts" >
+    select 
+    accountId,  tab1.status, tab1.amount, startTime,endTime,restStages,restAmount,totalStages
+    from t_oilcard_account as tab1 inner join t_oilcard_product as tab2 on tab1.productId=tab2.productId
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) 
+
+    AND tab1.status in (
+    <foreach collection="status" item="item" index="index" separator=",">
+  		#{item}
+  	</foreach>
+	) 
+	<if test="startTime!=null">
+	 AND tab1.insertTime &gt; #{startTime}
+	 </if>
+	 <if test="endTime!=null">
+	 AND tab1.insertTime &lt; #{endTime}
+	 </if>
+	 <if test="channelNo!=null">
+	 AND tab1.channelNo = #{channelNo}
+	 </if>
+	
+  </select>
+  
+  
+</mapper>

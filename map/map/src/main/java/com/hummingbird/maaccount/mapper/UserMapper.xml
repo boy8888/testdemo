@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.User" >
+    <id column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="login_type" property="loginType" jdbcType="VARCHAR" />
+    <result column="mobileNum" property="mobilenum" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
+    <result column="headImage" property="headimage" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="password_plaintext" property="passwordPlaintext" jdbcType="VARCHAR" />
+    <result column="password_first" property="passwordFirst" jdbcType="VARCHAR" />
+    <result column="paymentCodeMD5" property="paymentcodemd5" jdbcType="VARCHAR" />
+    <result column="paymentCodeDES" property="paymentCodeDES" jdbcType="VARCHAR" />
+    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+    <result column="register_channel" property="registerChannel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId,login_type, mobileNum, email, user_name, ID, name, nickName, headImage, insertTime, updateTime, 
+    password, password_first, password_plaintext, paymentCodeMD5, paymentCodeDES, org_type, register_channel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="select4Deschange" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where paymentCodeDES is not null
+    and length(paymentCodeDES) = 16
+  </select>
+  <select id="selectByMobile" resultMap="BaseResultMap"  parameterType="String"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where mobileNum = #{mobileNum,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap"  parameterType="String"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_name = #{user_name,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEmail" resultMap="BaseResultMap"  parameterType="String"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where userId = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.User" useGeneratedKeys="true" keyProperty="userId">
+    insert into t_user (userId, login_type, mobileNum, email, user_name, 
+      ID, name, nickName, headImage, 
+      insertTime, updateTime, paymentCodeDES,
+      password, paymentCodeMD5, org_type, register_channel)
+    values (#{userId,jdbcType=INTEGER}, #{loginType,jdbcType=VARCHAR}, #{mobilenum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{headimage,jdbcType=VARCHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{paymentCodeDES}, #{password,jdbcType=VARCHAR}, 
+      #{paymentcodemd5,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, #{registerChannel,jdbcType=VARCHAR})
+  </insert>
+  
+   <insert id="insertAppId" >
+    insert into  t_user_register_appid (userId,appId)
+    values (#{userId,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR})
+  </insert>
+  
+  
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.User" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="loginType != null" >
+        login_type,
+      </if>
+      <if test="mobilenum != null" >
+        mobileNum,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nickname != null" >
+        nickName,
+      </if>
+      <if test="headimage != null" >
+        headImage,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="paymentcodemd5 != null" >
+        paymentCodeMD5,
+      </if>
+      <if test="paymentCodeDES != null" >
+        paymentCodeDES,
+      </if>
+      <if test="orgType != null" >
+        org_type,
+      </if>
+      <if test="registerChannel != null" >
+        register_channel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="loginType != null" >
+        #{loginType,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilenum != null" >
+        #{mobilenum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        #{Id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="headimage != null" >
+        #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentcodemd5 != null" >
+        #{paymentcodemd5,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentCodeDES != null" >
+        #{paymentCodeDES,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="registerChannel != null" >
+        #{registerChannel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.User" >
+    update t_user
+    <set >
+      <if test="loginType != null" >
+        login_type = #{loginType,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilenum != null" >
+        mobileNum = #{mobilenum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        ID = #{Id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="headimage != null" >
+        headImage = #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentcodemd5 != null" >
+        paymentCodeMD5 = #{paymentcodemd5,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentCodeDES != null" >
+        paymentCodeDES=#{paymentCodeDES},
+      </if>
+      <if test="orgType != null" >
+        org_type=#{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="registerChannel != null" >
+        register_channel=#{registerChannel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.User" >
+    update t_user
+    set
+      login_type = #{loginType,jdbcType=VARCHAR}, 
+      mobileNum = #{mobilenum,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      ID = #{Id,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      headImage = #{headimage,jdbcType=VARCHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      password = #{password,jdbcType=VARCHAR},
+      paymentCodeMD5 = #{paymentcodemd5,jdbcType=VARCHAR},
+      paymentCodeDES = #{paymentCodeDES},
+      org_type = #{orgType,jdbcType=VARCHAR},
+      register_channel = #{registerChannel,jdbcType=VARCHAR}
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

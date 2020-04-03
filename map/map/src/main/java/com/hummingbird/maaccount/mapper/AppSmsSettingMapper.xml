@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.AppSmsSettingMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.AppSmsSetting" >
+    <id column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="corporationCode" property="corporationCode" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="senderImpl" property="senderImpl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    appId, corporationCode, channel, senderImpl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_sms_setting
+    where appId = #{appId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_app_sms_setting
+    where appId = #{appId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.AppSmsSetting" >
+    insert into t_app_sms_setting (appId, corporationCode, channel, 
+      senderImpl)
+    values (#{appId,jdbcType=VARCHAR}, #{corporationCode,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, 
+      #{senderImpl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.AppSmsSetting" >
+    insert into t_app_sms_setting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        appId,
+      </if>
+      <if test="corporationCode != null" >
+        corporationCode,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="senderImpl != null" >
+        senderImpl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="corporationCode != null" >
+        #{corporationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="senderImpl != null" >
+        #{senderImpl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.AppSmsSetting" >
+    update t_app_sms_setting
+    <set >
+      <if test="corporationCode != null" >
+        corporationCode = #{corporationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="senderImpl != null" >
+        senderImpl = #{senderImpl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where appId = #{appId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.AppSmsSetting" >
+    update t_app_sms_setting
+    set corporationCode = #{corporationCode,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      senderImpl = #{senderImpl,jdbcType=VARCHAR}
+    where appId = #{appId,jdbcType=VARCHAR}
+  </update>
+</mapper>

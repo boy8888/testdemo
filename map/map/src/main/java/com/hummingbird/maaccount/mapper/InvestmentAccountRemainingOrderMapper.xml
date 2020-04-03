@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.InvestmentAccountRemainingOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.InvestmentAccountRemainingOrder" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appname" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="originalOrderId" property="originalorderId" jdbcType="VARCHAR" />
+    <result column="originalTable" property="originaltable" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="appAlias" property="appalias" jdbcType="VARCHAR" />
+    <result column="appAlias2" property="appalias2" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="frozenSumSnapshot" property="frozenSumSnapshot" jdbcType="BIGINT" />
+    <result column="objectSumSnapshot" property="objectSumSnapshot" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" />
+    <result column="payOrderId" property="payOrderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="queryResult" type="com.hummingbird.maaccount.vo.OrderDetailOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountType" property="peerAccountType" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="flowDirection" property="flowDirection" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="queryFreezeResult" type="com.hummingbird.maaccount.vo.OrderWithdrawDetailOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    *
+    from t_investment_account_remaining_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOriginalOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    *
+    from t_investment_account_remaining_order
+    where originalOrderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectErrorFrozenYYD" resultMap="BaseResultMap"  >
+    select 
+    *
+    from t_investment_account_remaining_order o inner join t_methodorder mo on mo.method = o.method
+    where 	o.method = '/investmentAccount/freeze_yyd'
+		and o.insertTime>#{begintime}
+		and o.inserttime &lt; #{endtime}
+		and orderId not like 'freeze_yyd_%'
+		-- and accountId='9700010000086093'
+		ORDER BY o.inserttime DESC,mo.firstno
+
+  </select>
+  <select id="selectErrorFrozenYYDsEarlier" resultMap="BaseResultMap"  parameterType="com.hummingbird.maaccount.entity.InvestmentAccountRemainingOrder">
+    select   *
+    from t_investment_account_remaining_order o  inner join t_methodorder mo on mo.method = o.method
+    where 	 o.insertTime &lt;= #{insertTime}
+		and accountId=#{accountId}
+		and orderId != #{orderId}
+		order by insertTime desc,mo.firstno
+		limit 1
+  </select>
+  
+  <insert id="createOrder" parameterType="com.hummingbird.maaccount.entity.InvestmentAccountRemainingOrder" >
+    insert into t_investment_account_remaining_order (orderId, appId, appName, 
+      accountId, method, sum, 
+      remark, originalOrderId, originalTable, 
+      status, insertTime, updateTime, 
+      productName, appOrderId, appAlias, 
+      appAlias2
+      ,balance,peerAccountId,peerAccountType,peerAccountUnit,type,flowDirection,externalOrderId,externalOrderTime,payOrderId,frozenSumSnapshot,objectSumSnapshot)
+    values (#{orderId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appname,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{sum,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{originalorderId,jdbcType=VARCHAR}, #{originaltable,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productName,jdbcType=VARCHAR}, #{appOrderId,jdbcType=VARCHAR}, #{appalias,jdbcType=VARCHAR}, 
+      #{appalias2,jdbcType=VARCHAR}
+      ,#{balance,jdbcType=BIGINT} ,#{peerAccountId,jdbcType=VARCHAR},#{peerAccountType,jdbcType=VARCHAR},#{peerAccountUnit,jdbcType=VARCHAR}
+      ,#{type,jdbcType=VARCHAR} ,#{flowDirection,jdbcType=VARCHAR},#{externalOrderId,jdbcType=VARCHAR},#{externalOrderTime,jdbcType=TIMESTAMP},#{payOrderId}
+      ,#{frozenSumSnapshot},#{objectSumSnapshot}
+      )
+  </insert>
+  <update id="updateOrder" parameterType="com.hummingbird.maaccount.entity.InvestmentAccountRemainingOrder" >
+    update t_investment_account_remaining_order
+    set appId = #{appId,jdbcType=VARCHAR},
+      appName = #{appname,jdbcType=VARCHAR},
+      accountId = #{accountId,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      sum = #{sum,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      originalOrderId = #{originalorderId,jdbcType=VARCHAR},
+      originalTable = #{originaltable,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productName = #{productName,jdbcType=VARCHAR},
+      appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      appAlias = #{appalias,jdbcType=VARCHAR},
+      appAlias2 = #{appalias2,jdbcType=VARCHAR},
+      flowDirection = #{flowDirection,jdbcType=CHAR},
+      balance = #{balance,jdbcType=BIGINT},
+      peerAccountType = #{peerAccountType,jdbcType=CHAR},
+      peerAccountId = #{peerAccountId,jdbcType=VARCHAR},
+      peerAccountUnit = #{peerAccountUnit,jdbcType=VARCHAR},
+      externalOrderId = #{externalOrderId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=CHAR},
+      externalOrderTime = #{externalOrderTime,jdbcType=TIMESTAMP},
+      frozenSumSnapshot = #{frozenSumSnapshot,jdbcType=BIGINT},
+      objectSumSnapshot = #{objectSumSnapshot,jdbcType=BIGINT},
+      payOrderId = #{payOrderId,jdbcType=VARCHAR}
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+   <select id="queryOrderByPage" resultMap="queryResult"  >
+    select 
+    orderId, appId, appName, method, sum, t.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name, productName, appOrderId
+    , case status when 'OK#' then '正常' else '失败' end status
+    ,balance,peerAccountId,
+    case peerAccountType when 'IA#' then  '投资账户' when 'CA#' then '现金账户' when 'TA#' then '第三方账户/其他账户' else  peerAccountType end peerAccountType
+    ,peerAccountUnit,td.typename type,case flowDirection when 'IN#' then  '流入' else '流出' end flowDirection
+    ,externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime
+    from t_investment_account_remaining_order t 
+    left join t_order_type_desc  td on td.typeid=type
+    left join t_method m on t.method=m.methodId
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startTime != null" >
+        and inserttime &gt;  #{filter.startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endTime != null" >
+         and inserttime &lt;  #{filter.endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+         and type =  #{filter.type}
+    </if>
+    <if test="filter.flowDirection != null" >
+         and flowDirection =  #{filter.flowDirection}
+    </if>
+    <if test="filter.peerAccountType != null" >
+         and peerAccountType =  #{filter.peerAccountType}
+    </if>
+    
+    order by insertTime desc
+    
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="statBillingSum"  parameterType="java.lang.String" resultType="java.lang.Long">
+     select IFNULL(sum(`sum`),0) sum from t_investment_account_remaining_order where  accountId in (
+        select accountId from t_investment_account where userId in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+        and status = 'OK#'
+        )
+    )
+    <if test="filter.startTime != null" >
+        and insertTime &gt;  #{filter.startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endTime != null" >
+         and insertTime &lt;  #{filter.endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+         and type =  #{filter.type}
+    </if>
+    <if test="filter.flowDirection != null" >
+         and flowDirection =  #{filter.flowDirection}
+    </if>
+    <if test="filter.peerAccountType != null" >
+         and peerAccountType =  #{filter.peerAccountType}
+    </if>
+    and method not in('/investmentAccount/withdraw_success') 
+  </select>
+  
+  <select id="onlineRechargeAmount"  parameterType="java.lang.String" resultType="java.lang.Long">
+     select IFNULL(sum(abs(`sum`)),0) onlineRechargeAmount from t_investment_account_remaining_order where method='/bankCard/transfer_to_investmentAccount' and accountId in (
+    	select accountId from t_investment_account where userId in ( select userId from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and inserttime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate != null" >
+         and inserttime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+         and type =  #{filter.type}
+    </if>
+    <if test="filter.flowDirection != null" >
+         and flowDirection =  #{filter.flowDirection}
+    </if>
+    <if test="filter.peerAccountType != null" >
+         and peerAccountType =  #{filter.peerAccountType}
+    </if>
+  </select>
+  
+  <select id="offlineRechargeAmount"  parameterType="java.lang.String" resultType="java.lang.Long">
+    select IFNULL(sum(abs(`sum`)),0) offlineRechargeAmount from t_investment_account_remaining_order where method='/investmentAccount/offlineRecharge_success' and 
+    accountId in (
+    	select accountId from t_investment_account where userId in ( select userId from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and inserttime &gt;  #{filter.startDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endDate != null" >
+         and inserttime &lt;  #{filter.endDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+         and type =  #{filter.type}
+    </if>
+    <if test="filter.flowDirection != null" >
+         and flowDirection =  #{filter.flowDirection}
+    </if>
+    <if test="filter.peerAccountType != null" >
+         and peerAccountType =  #{filter.peerAccountType}
+    </if>
+  </select>
+  <select id="queryOrderTotalByPage" resultType="java.lang.Integer"  >
+    select count(*)
+    from t_investment_account_remaining_order
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startTime != null" >
+        and updatetime &gt;  #{filter.startTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.endTime != null" >
+         and updatetime &lt;  #{filter.endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="filter.type != null" >
+         and type =  #{filter.type}
+    </if>
+    <if test="filter.flowDirection != null" >
+         and flowDirection =  #{filter.flowDirection}
+    </if>
+    <if test="filter.peerAccountType != null" >
+         and peerAccountType =  #{filter.peerAccountType}
+    </if>
+  </select>
+  <select id="queryFreezeOrderByPage" resultMap="queryFreezeResult"  >
+    select 
+   orderId, appId, appName, method, abs(sum) sum, t.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name, productName, appOrderId
+    , case method when '/investmentAccount/withdraw_success' then '提现成功' when '/investmentAccount/withdraw_to_unfreeze' then '提现申请撤销' else '提现申请' end status
+    ,peerAccountId,peerAccountUnit
+    from t_investment_account_remaining_order t left join t_method m on t.method=m.methodId
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    and type='TX#'
+    and orderid not in (
+    	select originalOrderId from t_investment_account_remaining_order where type='TX#' 
+    	and originalOrderId is not null
+	    <if test="filter.startDate != null" >
+	        and updatetime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+	    </if>
+	    <if test="filter.endDate != null" >
+	         and updatetime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+	    </if>
+    	
+    	)
+    <if test="filter.startDate != null" >
+        and updatetime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and updatetime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    order by insertTime desc
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="queryFreezeOrderTotalByPage" resultType="java.lang.Integer"  >
+    select count(*)
+    from t_investment_account_remaining_order
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    and type='TX#'
+    and orderid not in (
+    	select originalOrderId from t_investment_account_remaining_order where type='TX#' 
+    	and originalOrderId is not null
+	    <if test="filter.startDate != null" >
+	        and updatetime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+	    </if>
+	    <if test="filter.endDate != null" >
+	         and updatetime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+	    </if>
+    	
+    	)
+    <if test="filter.startDate != null" >
+        and updatetime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and updatetime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

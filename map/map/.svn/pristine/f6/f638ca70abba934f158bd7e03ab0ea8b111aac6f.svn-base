@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.DiscountCardAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.DiscountCardAccount" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="restAmount" property="restAmount" jdbcType="BIGINT" />
+    <result column="restStages" property="restStages" jdbcType="BIGINT" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="channelNo" property="channelNo" jdbcType="VARCHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    accountId, userId, balance, remark, status, amount, restAmount, restStages, startTime, 
+    endTime, insertTime, updateTime, productId, channelNo,signature
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByUserId4list"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account
+    
+    where userId = #{userId,jdbcType=INTEGER} 
+    and status = 'OK#' and (balance >= #{sum} )
+    <if test="terminalId != null " >
+    	and productId in  (
+    		select distinct productId from t_product_terminal_list l where   (l.terminalId=#{terminalId} or l.terminalId = 'ALL_TERMINAL_CAN')
+    	)
+    </if>
+    
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByCardSelecter" parameterType="com.hummingbird.maaccount.vo.CardSelecter" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account
+    
+    where userId = #{userId,jdbcType=INTEGER} 
+    and status = 'OK#' and (balance >= #{sum} )
+    <if test="terminalId != null " >
+    	and productId in  (
+    		select distinct productId from t_product_terminal_list l where   (l.terminalId=#{terminalId} or l.terminalId = 'ALL_TERMINAL_CAN')
+    	)
+    </if>
+    <if test="zjproductId != null " >
+    	and productId in  (
+    		select distinct product_id from t_product_oiltype_custom c where   (oil_type=#{zjproductId} or oil_type = 'ALL_OIL')
+    	)
+    </if>
+    <if test="productId != null " >
+    and productId = #{productId}
+    </if>
+    <if test="denyProducts != null " >
+    	AND  productId not in (
+	    <foreach collection="denyProducts" item="item" index="index" separator=",">
+	  		#{item}
+	  	</foreach>
+	) 
+    </if>
+    order by endTime,balance
+  </select>
+  <select resultMap="BaseResultMap" id="getAccountByAccountId"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account
+    where accountId = #{accountId,jdbcType=VARCHAR} 
+  </select>
+  <select resultMap="BaseResultMap" id="getAccountsByMobile"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_discountcard_account
+    where userId in (select userid from t_user where mobileNum= #{mobileNum} )
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_discountcard_account
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="createAccount" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccount" >
+    insert into t_discountcard_account (accountId, userId, balance, 
+      remark, status, amount, 
+      restAmount, restStages, startTime, 
+      endTime, insertTime, updateTime, 
+      productId, channelNo,signature)
+    values (#{accountId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{balance,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{amount,jdbcType=BIGINT}, 
+      #{restAmount,jdbcType=BIGINT}, #{restStages,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productId,jdbcType=VARCHAR}, #{channelNo,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccount" >
+    insert into t_discountcard_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="restAmount != null" >
+        restAmount,
+      </if>
+      <if test="restStages != null" >
+        restStages,
+      </if>
+      <if test="startTime != null" >
+        startTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="channelNo != null" >
+        channelNo,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="restAmount != null" >
+        #{restAmount,jdbcType=BIGINT},
+      </if>
+      <if test="restStages != null" >
+        #{restStages,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelNo != null" >
+        #{channelNo,jdbcType=VARCHAR},
+      </if>
+       <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccount" >
+    update t_discountcard_account
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="restAmount != null" >
+        restAmount = #{restAmount,jdbcType=BIGINT},
+      </if>
+      <if test="restStages != null" >
+        restStages = #{restStages,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productId != null" >
+        productId = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelNo != null" >
+        channelNo = #{channelNo,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccount" >
+    update t_discountcard_account
+    set userId = #{userId,jdbcType=BIGINT},
+      balance = #{balance,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      restAmount = #{restAmount,jdbcType=BIGINT},
+      restStages = #{restStages,jdbcType=BIGINT},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      productId = #{productId,jdbcType=VARCHAR},
+      channelNo = #{channelNo,jdbcType=VARCHAR},
+       signature = #{signature,jdbcType=VARCHAR}
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateAccount" parameterType="com.hummingbird.maaccount.entity.DiscountCardAccount" >
+    update t_discountcard_account
+    set 
+      balance = #{balance,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      signature = #{signature,jdbcType=VARCHAR}
+    where accountId = #{accountId,jdbcType=INTEGER}
+  </update>
+    <select  resultType="java.lang.Long" id="statAccountBalance"  parameterType="String">
+    select 
+    ifnull(sum(balance),0)
+    from t_discountcard_account
+    where userId in (select userid from t_user where mobileNum= #{mobileNum} )
+    and status='OK#'
+  </select>
+  
+   <resultMap id="CardResultMap" type="com.hummingbird.maaccount.vo.QueryUserCardListBaseResultVO" >
+    <id column="accountId" property="accountId" jdbcType="VARCHAR" />
+   
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="amount" property="amount" jdbcType="BIGINT" />
+    <result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+ </resultMap>
+  <sql id="Card_Column_List" >
+    accountId, status, amount, startTime,endTime
+  </sql>
+  <select  resultMap="CardResultMap" id="getUserAccounts" >
+    select 
+    <include refid="Card_Column_List" />
+    from t_discountcard_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) 
+    AND status in (
+    <foreach collection="status" item="item" index="index" separator=",">
+  		#{item}
+  	</foreach>
+	) 
+	<if test="startTime!=null">
+	 AND insertTime &gt; #{startTime}
+	 </if>
+	 <if test="endTime!=null">
+	 AND insertTime &lt; #{endTime}
+	 </if>
+	 <if test="channelNo!=null">
+	 AND channelNo = #{channelNo}
+	 </if>
+	
+  </select>
+  <select  resultType="java.lang.Integer" id="getUserAccountsTotal" >
+    select 
+    ifnull(count(*),0)
+    from t_discountcard_account
+    WHERE userId in (SELECT userId FROM t_user WHERE mobileNum=#{mobileNum}) 
+    AND status in (
+    <foreach collection="status" item="item" index="index" separator=",">
+  		#{item}
+  	</foreach>
+	) 
+	<if test="startTime!=null">
+	 AND insertTime &gt; #{startTime}
+	 </if>
+	 <if test="endTime!=null">
+	 AND insertTime &lt; #{endTime}
+	 </if>
+	 <if test="channelNo!=null">
+	 AND channelNo = #{channelNo}
+	 </if>
+	
+  </select>
+</mapper>

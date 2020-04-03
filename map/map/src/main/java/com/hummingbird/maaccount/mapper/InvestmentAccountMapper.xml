@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.InvestmentAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    <id column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="objectSum" property="objectsum" jdbcType="BIGINT" />
+    <result column="remainingSum" property="remainingsum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="frozenSum" property="frozensum" jdbcType="BIGINT" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, accountId, objectSum, remainingSum, remark, status, frozenSum,signature
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_investment_account
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_investment_account
+    where userId = #{userId,jdbcType=INTEGER} and status ='OK#'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_investment_account
+    where userId = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    insert into t_investment_account (userId, accountId, objectSum, 
+      remainingSum, remark, status, 
+      frozenSum,signature)
+    values (#{userId,jdbcType=INTEGER}, #{accountId,jdbcType=VARCHAR}, #{objectsum,jdbcType=BIGINT}, 
+      #{remainingsum,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+      #{frozensum,jdbcType=BIGINT},#{signature,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    insert into t_investment_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="accountId != null" >
+        accountId,
+      </if>
+      <if test="objectsum != null" >
+        objectSum,
+      </if>
+      <if test="remainingsum != null" >
+        remainingSum,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="frozensum != null" >
+        frozenSum,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="objectsum != null" >
+        #{objectsum,jdbcType=BIGINT},
+      </if>
+      <if test="remainingsum != null" >
+        #{remainingsum,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="frozensum != null" >
+        #{frozensum,jdbcType=BIGINT},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    update t_investment_account
+    <set >
+      <if test="accountId != null" >
+        accountId = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="objectsum != null" >
+        objectSum = #{objectsum,jdbcType=BIGINT},
+      </if>
+      <if test="remainingsum != null" >
+        remainingSum = #{remainingsum,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="frozensum != null" >
+        frozenSum = #{frozensum,jdbcType=BIGINT},
+      </if>
+      <if test="signature != null" >
+        frozenSum = #{signature,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    update t_investment_account
+    set accountId = #{accountId,jdbcType=VARCHAR},
+      objectSum = #{objectsum,jdbcType=BIGINT},
+      remainingSum = #{remainingsum,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      frozenSum = #{frozensum,jdbcType=BIGINT},
+      signature = #{signature,jdbcType=VARCHAR}
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateAccount" parameterType="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    update t_investment_account
+    set accountId = #{accountId,jdbcType=VARCHAR},
+      objectSum = #{objectsum,jdbcType=BIGINT},
+      remainingSum = #{remainingsum,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      frozenSum = #{frozensum,jdbcType=BIGINT},
+      signature = #{signature,jdbcType=VARCHAR}
+    where userId = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateSignature" parameterType="java.lang.String" >
+    update t_investment_account
+    set signature = md5(CONCAT('IA#',userId,accountId,objectSum,remainingSum,status,frozenSum))
+    where accountId = #{accountId,jdbcType=VARCHAR}
+  </update>
+    <update id="expenseWithRemain"  >
+    update t_investment_account
+    set remainingSum = remainingSum+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and remainingSum &gt;= abs(#{order.sum})
+    and status='OK#'
+  </update>
+    <update id="expenseWithObject"  >
+    update t_investment_account
+    set objectSum = objectSum+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and objectSum &gt;=  abs(#{order.sum})
+    and status='OK#'
+  </update>
+    <update id="expenseWithFrozen"  >
+    update t_investment_account
+    set frozensum = frozensum+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and frozensum &gt;=  abs(#{order.sum})
+    and status='OK#'
+  </update>
+   <update id="incomeWithRemain"  >
+    update t_investment_account
+    set remainingSum = remainingSum+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and status='OK#'
+  </update>
+   <update id="incomeWithObject"  >
+    update t_investment_account
+    set objectSum = objectSum+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and status='OK#'
+  </update>
+   <update id="incomeWithFrozen"  >
+    update t_investment_account
+    set frozensum = frozensum+#{order.sum}
+    where userId = #{account.userId,jdbcType=INTEGER}
+    and status='OK#'
+  </update>
+  <select  resultMap="BaseResultMap" id="getAccountByMobile"  parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_investment_account
+    where userId in (select userid from t_user where mobileNum= #{userId,jdbcType=INTEGER} )
+  </select>
+  <insert id="createAccount" parameterType="com.hummingbird.maaccount.entity.InvestmentAccount" >
+    insert into t_investment_account (userId, accountId, objectSum, 
+      remainingSum, remark, status,frozensum,signature
+      )
+    values (#{userId,jdbcType=INTEGER}, #{accountId,jdbcType=VARCHAR}, #{objectsum,jdbcType=BIGINT}, 
+      #{remainingsum,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{frozensum,jdbcType=BIGINT}, #{signature,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select  resultMap="BaseResultMap" id="getAccountByUserId"  parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from t_investment_account
+    where userId = #{userId,jdbcType=INTEGER} 
+  </select>
+  <select  resultMap="BaseResultMap" id="getAccountByAccountId"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_investment_account
+    where accountId = #{accountId,jdbcType=INTEGER} 
+  </select>
+</mapper>

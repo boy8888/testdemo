@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.VolumecardAccountProductMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.VolumecardAccountProduct" >
+    <id column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="expiresType" property="expiresType" jdbcType="CHAR" />
+    <result column="expiresLength" property="expiresLength" jdbcType="INTEGER" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, remark, status, insertTime, updateTime, expiresType, expiresLength, productName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_volumecard_product
+    where productId = #{productId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_volumecard_product
+    where productId = #{productId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.maaccount.entity.VolumecardAccountProduct" >
+    insert into t_volumecard_product (productId, remark, status, 
+      insertTime, updateTime, expiresType, 
+      expiresLength, productName)
+    values (#{productId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{expiresType,jdbcType=CHAR}, 
+      #{expiresLength,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.maaccount.entity.VolumecardAccountProduct" >
+    insert into t_volumecard_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        productId,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="insertTime != null" >
+        insertTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="expiresType != null" >
+        expiresType,
+      </if>
+      <if test="expiresLength != null" >
+        expiresLength,
+      </if>
+      <if test="productName != null" >
+        productName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiresType != null" >
+        #{expiresType,jdbcType=CHAR},
+      </if>
+      <if test="expiresLength != null" >
+        #{expiresLength,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.maaccount.entity.VolumecardAccountProduct" >
+    update t_volumecard_product
+    <set >
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="insertTime != null" >
+        insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiresType != null" >
+        expiresType = #{expiresType,jdbcType=CHAR},
+      </if>
+      <if test="expiresLength != null" >
+        expiresLength = #{expiresLength,jdbcType=INTEGER},
+      </if>
+      <if test="productName != null" >
+        productName = #{productName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productId = #{productId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.maaccount.entity.VolumecardAccountProduct" >
+    update t_volumecard_product
+    set remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      expiresType = #{expiresType,jdbcType=CHAR},
+      expiresLength = #{expiresLength,jdbcType=INTEGER},
+      productName = #{productName,jdbcType=VARCHAR}
+    where productId = #{productId,jdbcType=VARCHAR}
+  </update>
+</mapper>

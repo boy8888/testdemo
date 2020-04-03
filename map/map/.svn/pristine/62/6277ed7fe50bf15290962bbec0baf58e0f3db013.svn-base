@@ -1,0 +1,55 @@
+package com.hummingbird.maaccount.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.hummingbird.common.controller.BaseController;
+import com.hummingbird.common.exception.ValidateException;
+import com.hummingbird.common.util.json.JSONArray;
+import com.hummingbird.common.util.json.JSONException;
+import com.hummingbird.common.util.json.JSONObject;
+import com.hummingbird.common.vo.ResultModel;
+import com.hummingbird.maaccount.entity.User;
+import com.hummingbird.maaccount.service.impl.UserService;
+
+/**
+* @ClassName: NewAuthController
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author zouyi
+* @date 2019年4月18日 下午4:31:53
+* @version V1.0  
+*/
+@Controller
+@RequestMapping("/userAuth")
+public class NewAuthController extends BaseController{
+	
+	@Autowired(required = true)
+	private UserService userSrv;
+	
+	
+	@RequestMapping("/query")
+	public @ResponseBody Object queryUser(String mobileNum) throws JSONException{
+		JSONObject object = new JSONObject();
+		if(!StringUtils.isNotBlank(mobileNum)){
+			object.put("result", "0");
+			object.put("info", "手机号不为空");
+			return  object;
+		}
+		User user = userSrv.getUserByMobile(mobileNum);
+		if(user!=null){
+			object.put("result", "1");
+			object.put("info", user.getInsertTime().getTime());
+			return  object;
+		}
+		object.put("result", "0");
+		object.put("info", "");
+		return  object;
+	}
+}

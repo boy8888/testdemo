@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.maaccount.mapper.OfflineRechargeMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.maaccount.entity.OfflineRecharge" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="TIMESTAMP" />
+    <result column="accountOrderId" property="accountOrderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="queryResult" type="com.hummingbird.maaccount.vo.OfflineRechargeOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="VARCHAR" />
+    <result column="accountOrderId" property="accountOrderId" jdbcType="VARCHAR" />
+    <result column="accountId" property="accountId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="queryResultRecharge" type="com.hummingbird.maaccount.vo.RechargeOutputVO" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="appId" property="appId" jdbcType="VARCHAR" />
+    <result column="appName" property="appName" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="method_Name" property="methodName" jdbcType="VARCHAR" />
+    <result column="sum" property="sum" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+    <result column="appOrderId" property="appOrderId" jdbcType="VARCHAR" />
+    <result column="peerAccountId" property="peerAccountId" jdbcType="VARCHAR" />
+    <result column="peerAccountUnit" property="peerAccountUnit" jdbcType="VARCHAR" />
+    <result column="externalOrderId" property="externalOrderId" jdbcType="VARCHAR" />
+    <result column="externalOrderTime" property="externalOrderTime" jdbcType="VARCHAR" />
+    <result column="accountOrderId" property="accountOrderId" jdbcType="VARCHAR" />
+    <result column="payOrderId" property="payOrderId" jdbcType="VARCHAR" />
+    <result column="rechargeType" property="rechargeType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderId, appId, appName, accountId, method, sum, remark, status, insertTime, updateTime,  appOrderId
+    ,peerAccountId,peerAccountUnit,externalOrderId,externalOrderTime,accountOrderId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_offline_recharge
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <insert id="createOrder" parameterType="com.hummingbird.maaccount.entity.OfflineRecharge" >
+    insert into t_offline_recharge (orderId, appId, appName, 
+      accountId, method, sum, remark, status, insertTime, updateTime, 
+      appOrderId,peerAccountId,peerAccountUnit,externalOrderId,externalOrderTime,accountOrderId)
+    values (#{orderId,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{appName,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{sum,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR},  #{status,jdbcType=CHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{appOrderId,jdbcType=VARCHAR} ,#{peerAccountId,jdbcType=VARCHAR},#{peerAccountUnit,jdbcType=VARCHAR}
+      ,#{externalOrderId,jdbcType=VARCHAR},#{externalOrderTime,jdbcType=TIMESTAMP}
+       ,#{accountOrderId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateOrder" parameterType="com.hummingbird.maaccount.entity.OfflineRecharge" >
+    update t_offline_recharge
+    set appId = #{appId,jdbcType=VARCHAR},
+      appName = #{appName,jdbcType=VARCHAR},
+      accountId = #{accountId,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      sum = #{sum,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      insertTime = #{insertTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      appOrderId = #{appOrderId,jdbcType=VARCHAR},
+      accountOrderId = #{accountOrderId,jdbcType=VARCHAR},
+      peerAccountId = #{peerAccountId,jdbcType=VARCHAR},
+      peerAccountUnit = #{peerAccountUnit,jdbcType=VARCHAR},
+      externalOrderTime = #{externalOrderTime,jdbcType=TIMESTAMP},
+      externalOrderId = #{externalOrderId,jdbcType=VARCHAR}
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryOrderByPage" resultMap="queryResult"  >
+    select accountId,
+    orderId, appId, appName, method, sum, t_offline_recharge.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name,  appOrderId
+    , case status when 'APL' then '充值等待' when 'OK#' then '充值成功' when 'FLS' then '充值撤销' else status end status
+    ,peerAccountId,peerAccountUnit,accountOrderId
+    ,externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime
+    from t_offline_recharge  
+    left join t_method m on t_offline_recharge.method=m.methodId
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+     
+    order by insertTime desc
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="queryOrderTotalByPage" resultType="java.lang.Integer"  >
+    select case count(*) when null then 0 else count(*) end 
+    from t_offline_recharge
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+  <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="queryRechargeOrderByPage" resultMap="queryResult"  >
+  select * from (
+        select 
+    '线下充值' rechargetype,orderId, appId, appName, method, sum, t_offline_recharge.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name,  appOrderId
+    , case status when 'APL' then '充值等待' when 'OK#' then '充值成功' when 'FLS' then '充值撤销' else status end status
+    ,peerAccountId,peerAccountUnit,accountOrderId
+    ,externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime,'' payOrderId
+    from t_offline_recharge  
+    left join t_method m on t_offline_recharge.method=m.methodId
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum=  #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    
+UNION ALL
+select '线上充值' ,orderid,appid,appName,method,sum,o.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime
+, m.methodName method_name,apporderid,case status when 'OK#' then '充值成功' when 'FLS' then '充值失败' else status end status
+,peerAccountId,peerAccountUnit,'',externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime,payOrderId
+from t_investment_account_remaining_order  o
+LEFT JOIN t_method m on o.method=m.methodId
+where o.method in ('/bankCard/transfer_to_investmentAccount','/bankCard/transfer_to_cashAccount')
+and accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum=  #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    
+    UNION ALL
+    select '线上充值' ,o.orderid,appid,appname,method,sum,o.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime , m.methodName method_name,
+apporderid,case status when 'OK#' then '充值成功' when 'FLS' then '充值失败' else status end status,peerAccountId,peerAccountUnit,'',
+externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime,payOrderId
+from t_cash_account_order o LEFT JOIN t_method m on o.method=m.methodId 
+where
+o.method in ('/bankCard/transfer_to_cashAccount') and 
+accountid in ( select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR}  and status = 'OK#' ) )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    
+     ) a
+    order by insertTime desc
+    limit #{page.firstResult,jdbcType=DECIMAL}  ,#{page.pageSize,jdbcType=DECIMAL} 
+  </select>
+  <select id="queryRechargeOrderTotalByPage" resultType="java.lang.Integer"  >
+  select ifnull(count(1),0) totalcount from (
+        select 
+    '线下充值' rechargetype,orderId, appId, appName, method, sum, t_offline_recharge.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime, m.methodName method_name,  appOrderId
+    , case status when 'APL' then '充值等待' when 'OK#' then '充值成功' when 'FLS' then '充值撤销' else status end status
+    ,peerAccountId,peerAccountUnit,accountOrderId
+    ,externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime,'' payOrderId
+    from t_offline_recharge  
+    left join t_method m on t_offline_recharge.method=m.methodId
+    where  accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum=  #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    
+UNION ALL
+select '线上充值' ,orderid,appid,appName,method,sum,o.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime
+, m.methodName method_name,apporderid,case status when 'OK#' then '充值成功' when 'FLS' then '充值失败' else status end status
+,peerAccountId,peerAccountUnit,'',externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime,payOrderId
+from t_investment_account_remaining_order  o
+LEFT JOIN t_method m on o.method=m.methodId
+where o.method in ('/bankCard/transfer_to_investmentAccount','/bankCard/transfer_to_cashAccount') 
+and accountid in (
+    	select accountid from t_investment_account where userid in ( select userid from t_user where mobileNum=  #{filter.mobileNum,jdbcType=VARCHAR} 
+    	and status = 'OK#'
+    	)
+    )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    
+    UNION ALL
+    select '线上充值' ,o.orderid,appid,appname,method,sum,o.remark,date_format(insertTime,'%Y-%m-%d %H:%i:%s') insertTime , m.methodName method_name,
+apporderid,case status when 'OK#' then '充值成功' when 'FLS' then '充值失败' else status end status,peerAccountId,peerAccountUnit,'',
+externalOrderId,date_format(externalOrderTime,'%Y-%m-%d %H:%i:%s') externalOrderTime,payOrderId
+from t_cash_account_order o LEFT JOIN t_method m on o.method=m.methodId 
+where
+o.method in ('/bankCard/transfer_to_cashAccount') and 
+accountid in ( select accountid from t_cash_account where userid in ( select userid from t_user where mobileNum= #{filter.mobileNum,jdbcType=VARCHAR} and status = 'OK#' ) )
+    <if test="filter.startDate != null" >
+        and insertTime &gt;  #{filter.startDate,jdbcType=VARCHAR}
+    </if>
+    <if test="filter.endDate != null" >
+         and insertTime &lt;  #{filter.endDate,jdbcType=VARCHAR}
+    </if>
+    
+     ) a
+  </select>
+</mapper>
